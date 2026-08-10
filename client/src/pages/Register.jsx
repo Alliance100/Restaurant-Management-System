@@ -1,0 +1,98 @@
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setCredentials } from '../store/authSlice';
+import api from '../api/axios';
+
+const Register = () => {
+  const [formData, setFormData] = useState({ name: '', email: '', password: '', phone: '' });
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(null);
+    setIsLoading(true);
+    try {
+      const res = await api.post('/auth/register', formData);
+      
+      if (res.data.success) {
+        dispatch(setCredentials({ user: res.data.data }));
+        navigate('/');
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || 'Registration failed');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <div className="flex min-h-[calc(100vh-130px)] w-full items-center justify-center p-6 bg-slate-50 dark:bg-slate-950 transition-colors duration-200">
+      <div className="w-full max-w-md rounded-3xl bg-white dark:bg-slate-900 p-10 shadow-sm border border-slate-200 dark:border-slate-800">
+        <div className="mb-10 text-center">
+          <h2 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-slate-100 mb-2">Create Account</h2>
+          <p className="text-sm font-medium text-slate-500 dark:text-slate-400">Join TableCraft to order delicious food</p>
+        </div>
+        
+        {error && (
+          <div className="mb-6 rounded-xl bg-red-50 dark:bg-red-900/20 p-4 border border-red-100 dark:border-red-800 text-sm font-medium text-red-600 dark:text-red-400">
+            {error}
+          </div>
+        )}
+        
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div className="space-y-1.5">
+            <label className="block text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider">Full Name</label>
+            <input type="text" name="name" onChange={handleChange} required placeholder="John Doe"
+              className="w-full px-4 py-3 rounded-xl text-sm border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all" />
+          </div>
+          
+          <div className="space-y-1.5">
+            <label className="block text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider">Email Address</label>
+            <input type="email" name="email" onChange={handleChange} required placeholder="you@example.com"
+              className="w-full px-4 py-3 rounded-xl text-sm border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all" />
+          </div>
+          
+          <div className="space-y-1.5">
+            <label className="block text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider">Phone Number</label>
+            <input type="tel" name="phone" onChange={handleChange} required placeholder="+1 (555) 000-0000"
+              className="w-full px-4 py-3 rounded-xl text-sm border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all" />
+          </div>
+          
+          <div className="space-y-1.5">
+            <label className="block text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider">Password</label>
+            <input type="password" name="password" onChange={handleChange} required placeholder="••••••••"
+              className="w-full px-4 py-3 rounded-xl text-sm border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all" />
+          </div>
+          
+          <button 
+            type="submit" 
+            disabled={isLoading}
+            className="mt-6 w-full rounded-xl bg-indigo-600 px-4 py-3 text-white font-bold shadow-sm hover:bg-indigo-500 focus:outline-none transition-all disabled:opacity-70 flex justify-center items-center"
+          >
+            {isLoading ? (
+              <span className="h-5 w-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+            ) : (
+              'Create Account'
+            )}
+          </button>
+        </form>
+        
+        <p className="mt-8 text-center text-sm font-medium text-slate-500 dark:text-slate-400">
+          Already have an account?{' '}
+          <Link to="/login" className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 hover:underline transition-colors">
+            Log in
+          </Link>
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default Register;

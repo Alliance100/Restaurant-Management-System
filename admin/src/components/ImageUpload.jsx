@@ -47,7 +47,7 @@ const ImageUpload = ({ value, onChange }) => {
 
   return (
     <div className="space-y-2">
-      {/* Preview */}
+      
       {value ? (
         <div className="relative rounded-sm overflow-hidden border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800">
           <img src={value} alt="Preview" className="w-full h-40 object-cover" />
@@ -97,7 +97,6 @@ const ImageUpload = ({ value, onChange }) => {
         </div>
       )}
 
-      {/* URL fallback input */}
       <div className="flex items-center gap-2">
         <ImageIcon className="w-4 h-4 text-stone-400 flex-shrink-0" />
         <input

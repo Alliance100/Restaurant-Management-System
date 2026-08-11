@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 import { Package, Clock, CheckCircle, XCircle, Truck, ChefHat, AlertCircle, RefreshCw, ChevronDown, ChevronUp } from 'lucide-react';
 import api from '../api/axios';
 
-// ── Status config ──────────────────────────────────────────────────────────────
 const STATUS_CONFIG = {
   pending: {
     label: 'Waiting for Approval',
@@ -73,7 +72,6 @@ const STATUS_CONFIG = {
   },
 };
 
-// Status progress steps (for tracking bar)
 const STATUS_STEPS = ['pending', 'confirmed', 'preparing', 'out_for_delivery', 'delivered'];
 
 const StatusBadge = ({ status }) => {
@@ -115,7 +113,7 @@ const OrderCard = ({ order, onCancel, cancelling }) => {
 
   return (
     <div className={`bg-white dark:bg-stone-900 rounded-none border border-stone-200 dark:border-stone-800 border  transition-all ${cfg.border}`}>
-      {/* Card header */}
+      
       <div className="p-5">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
@@ -139,10 +137,8 @@ const OrderCard = ({ order, onCancel, cancelling }) => {
           </div>
         </div>
 
-        {/* Progress tracker */}
         <ProgressTracker status={order.status} />
 
-        {/* Status-specific message */}
         {order.status === 'pending' && (
           <div className="mt-3 flex items-center gap-2 text-xs text-amber-600 dark:text-amber-400">
             <AlertCircle className="w-3.5 h-3.5" />
@@ -168,7 +164,6 @@ const OrderCard = ({ order, onCancel, cancelling }) => {
           </div>
         )}
 
-        {/* Actions */}
         <div className="flex items-center justify-between mt-3">
           <button
             onClick={() => setExpanded(!expanded)}
@@ -189,7 +184,6 @@ const OrderCard = ({ order, onCancel, cancelling }) => {
         </div>
       </div>
 
-      {/* Expanded items */}
       {expanded && (
         <div className="border-t border-stone-100 dark:border-stone-800 px-5 py-4 space-y-3">
           {order.items.map((item, i) => (
@@ -212,7 +206,6 @@ const OrderCard = ({ order, onCancel, cancelling }) => {
             </div>
           ))}
 
-          {/* Totals */}
           <div className="border-t border-stone-100 dark:border-stone-800 pt-3 space-y-1 text-xs text-stone-500 dark:text-stone-400">
             <div className="flex justify-between"><span>Subtotal</span><span>${(order.subtotal / 100).toFixed(2)}</span></div>
             <div className="flex justify-between"><span>Delivery fee</span><span>${(order.deliveryFee / 100).toFixed(2)}</span></div>
@@ -224,12 +217,10 @@ const OrderCard = ({ order, onCancel, cancelling }) => {
             </div>
           </div>
 
-          {/* Address */}
           <div className="bg-stone-50 dark:bg-stone-800 rounded-sm px-3 py-2.5 text-xs text-stone-500 dark:text-stone-400">
             📍 {order.deliveryAddress?.line1}, {order.deliveryAddress?.city}
           </div>
 
-          {/* Status history */}
           <div className="space-y-2">
             <p className="text-xs font-bold text-stone-400 uppercase tracking-wider">Order Timeline</p>
             {[...order.statusHistory].reverse().map((h, i) => (
@@ -271,10 +262,8 @@ const MyOrders = () => {
     }
   }, []);
 
-  // Initial load
   useEffect(() => { fetchOrders(true); }, [fetchOrders]);
 
-  // Auto-poll every 15 seconds if there are active orders
   useEffect(() => {
     const hasActiveOrders = orders.some(o => ['pending', 'confirmed', 'preparing', 'out_for_delivery'].includes(o.status));
     if (!hasActiveOrders) return;
@@ -307,7 +296,6 @@ const MyOrders = () => {
     <div className="min-h-screen bg-stone-50 dark:bg-stone-950 py-10 px-4 transition-colors duration-200">
       <div className="container mx-auto px-4 max-w-3xl">
 
-        {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-2xl font-black text-stone-900 dark:text-stone-100">My Orders</h1>
@@ -344,7 +332,7 @@ const MyOrders = () => {
           </div>
         ) : (
           <div className="space-y-8">
-            {/* Active Orders */}
+            
             {activeOrders.length > 0 && (
               <div>
                 <div className="flex items-center gap-2 mb-4">
@@ -361,7 +349,6 @@ const MyOrders = () => {
               </div>
             )}
 
-            {/* Past Orders */}
             {pastOrders.length > 0 && (
               <div>
                 <h2 className="text-sm font-black text-stone-400 uppercase tracking-wider mb-4">Order History</h2>

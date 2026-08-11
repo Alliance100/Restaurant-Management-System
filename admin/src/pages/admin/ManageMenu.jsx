@@ -81,7 +81,7 @@ const ManageMenu = () => {
 
   return (
     <div className="space-y-5 max-w-5xl">
-      {/* Header */}
+      
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-xl font-black text-stone-800 dark:text-stone-100">Menu Items</h1>
@@ -93,7 +93,6 @@ const ManageMenu = () => {
         </button>
       </div>
 
-      {/* Table */}
       <div className="bg-white dark:bg-stone-900 rounded-none border border-stone-200 dark:border-stone-800 border border-stone-200 dark:border-stone-800 overflow-hidden ">
         <div className="overflow-x-auto">
           <table className="w-full text-left min-w-[600px]">
@@ -151,11 +150,10 @@ const ManageMenu = () => {
         </div>
       </div>
 
-      {/* ── MODAL ──────────────────────────────────────────────────────────── */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-white dark:bg-stone-900 rounded-none border border-stone-200 dark:border-stone-800 w-full max-w-lg shadow-2xl border border-stone-200 dark:border-stone-700 flex flex-col max-h-[90vh]">
-            {/* Modal header */}
+            
             <div className="flex items-center justify-between px-6 py-4 border-b border-stone-100 dark:border-stone-800 flex-shrink-0">
               <h2 className="text-base font-bold text-stone-800 dark:text-stone-100">{editId ? 'Edit' : 'Add'} Menu Item</h2>
               <button onClick={() => setIsModalOpen(false)} className="w-7 h-7 flex items-center justify-center rounded-lg text-stone-400 hover:text-stone-600 dark:hover:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all">
@@ -163,7 +161,6 @@ const ManageMenu = () => {
               </button>
             </div>
 
-            {/* Scrollable body */}
             <div className="overflow-y-auto flex-1">
               <form id="menu-form" onSubmit={handleSubmit} className="p-6 space-y-4">
                 {error && (
@@ -172,28 +169,24 @@ const ManageMenu = () => {
                   </div>
                 )}
 
-                {/* Name */}
                 <div>
                   <label className="block text-xs font-bold text-stone-600 dark:text-stone-300 uppercase tracking-wider mb-1.5">Name *</label>
                   <input type="text" value={formData.name} onChange={(e) => handleNameChange(e.target.value)} required placeholder="e.g. Margherita Pizza"
                     className="w-full px-3 py-2.5 text-sm rounded-sm border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 text-stone-800 dark:text-stone-100 placeholder-stone-400 focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 transition-all" />
                 </div>
 
-                {/* Slug */}
                 <div>
                   <label className="block text-xs font-bold text-stone-600 dark:text-stone-300 uppercase tracking-wider mb-1.5">Slug *</label>
                   <input type="text" value={formData.slug} onChange={(e) => set('slug', e.target.value)} required
                     className="w-full px-3 py-2.5 text-sm rounded-sm border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 text-stone-800 dark:text-stone-100 placeholder-stone-400 focus:outline-none focus:border-orange-500 transition-all font-mono" />
                 </div>
 
-                {/* Description */}
                 <div>
                   <label className="block text-xs font-bold text-stone-600 dark:text-stone-300 uppercase tracking-wider mb-1.5">Description</label>
                   <textarea value={formData.description} onChange={(e) => set('description', e.target.value)} rows={3} placeholder="What makes this dish special?"
                     className="w-full px-3 py-2.5 text-sm rounded-sm border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 text-stone-800 dark:text-stone-100 placeholder-stone-400 focus:outline-none focus:border-orange-500 transition-all resize-none" />
                 </div>
 
-                {/* Category + Price */}
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <label className="block text-xs font-bold text-stone-600 dark:text-stone-300 uppercase tracking-wider mb-1.5">Category *</label>
@@ -211,7 +204,6 @@ const ManageMenu = () => {
                   </div>
                 </div>
 
-                {/* Dietary + Prep */}
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <label className="block text-xs font-bold text-stone-600 dark:text-stone-300 uppercase tracking-wider mb-1.5">Dietary Tag</label>
@@ -227,13 +219,11 @@ const ManageMenu = () => {
                   </div>
                 </div>
 
-                {/* Image Upload */}
                 <div>
                   <label className="block text-xs font-bold text-stone-600 dark:text-stone-300 uppercase tracking-wider mb-1.5">Image</label>
                   <ImageUpload value={formData.imageUrl} onChange={(url) => set('imageUrl', url)} />
                 </div>
 
-                {/* Toggles */}
                 <div className="flex items-center gap-6 pt-1">
                   <label className="flex items-center gap-2 cursor-pointer">
                     <input type="checkbox" checked={formData.isAvailable} onChange={(e) => set('isAvailable', e.target.checked)} className="w-4 h-4 rounded text-orange-600" />
@@ -247,7 +237,6 @@ const ManageMenu = () => {
               </form>
             </div>
 
-            {/* Modal footer */}
             <div className="px-6 py-4 border-t border-stone-100 dark:border-stone-800 flex-shrink-0">
               <button type="submit" form="menu-form" disabled={saving}
                 className="w-full bg-orange-600 hover:bg-orange-500 disabled:opacity-60 text-white font-bold py-3 rounded-sm transition-all flex items-center justify-center gap-2">

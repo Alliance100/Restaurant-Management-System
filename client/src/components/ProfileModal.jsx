@@ -99,8 +99,7 @@ const ProfileModal = ({ isOpen, onClose }) => {
 
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            
-            {/* Account Details */}
+
             <div className="space-y-4">
               <h4 className="text-sm font-black text-orange-600 dark:text-orange-400 border-b border-stone-100 dark:border-stone-800 pb-2 mb-4">Account Details</h4>
               <div>
@@ -124,7 +123,6 @@ const ProfileModal = ({ isOpen, onClose }) => {
               </div>
             </div>
 
-            {/* Delivery Address */}
             <div className="space-y-4">
               <h4 className="text-sm font-black text-orange-600 dark:text-orange-400 border-b border-stone-100 dark:border-stone-800 pb-2 mb-4">Default Delivery Address</h4>
               <div>

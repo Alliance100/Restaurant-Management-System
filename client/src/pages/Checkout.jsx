@@ -52,7 +52,6 @@ const Checkout = () => {
     );
   }
 
-  // ── Success screen ────────────────────────────────────────────────────────
   if (placedOrder) {
     return (
       <PageTransition>
@@ -69,7 +68,6 @@ const Checkout = () => {
             {placedOrder.orderNumber}
           </div>
 
-          {/* Status tracker */}
           <div className="mb-6 text-left bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-none border border-stone-200 dark:border-stone-800 p-4">
             <div className="flex items-center gap-2 mb-2">
               <div className="w-2 h-2 bg-amber-500 rounded-sm animate-pulse" />
@@ -153,7 +151,6 @@ const Checkout = () => {
     <div className="min-h-screen bg-stone-50 dark:bg-stone-950 py-10 px-4 transition-colors duration-200">
       <div className="container mx-auto max-w-5xl">
 
-        {/* Header */}
         <div className="flex items-center gap-4 mb-8">
           <button onClick={() => navigate(-1)}
             className="flex items-center gap-2 text-sm font-semibold text-stone-500 dark:text-stone-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors group">
@@ -168,10 +165,8 @@ const Checkout = () => {
         <form onSubmit={handlePlaceOrder}>
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
 
-            {/* Left: Address + extras */}
             <div className="lg:col-span-3 space-y-6">
 
-              {/* Delivery Address */}
               <div className="bg-white dark:bg-stone-900 rounded-none border border-stone-200 dark:border-stone-800 p-6 border border-stone-100 dark:border-stone-800 ">
                 <h2 className="text-base font-black text-stone-800 dark:text-stone-100 flex items-center gap-2 mb-5">
                   <MapPin className="w-4 h-4 text-orange-600 dark:text-orange-400" /> Delivery Address
@@ -216,7 +211,6 @@ const Checkout = () => {
                 </div>
               </div>
 
-              {/* Payment Method */}
               <div className="bg-white dark:bg-stone-900 rounded-none border border-stone-200 dark:border-stone-800 p-6 border border-stone-100 dark:border-stone-800 ">
                 <h2 className="text-base font-black text-stone-800 dark:text-stone-100 flex items-center gap-2 mb-4">
                   💳 Payment Method
@@ -237,7 +231,6 @@ const Checkout = () => {
                 </div>
               </div>
 
-              {/* Coupon */}
               <div className="bg-white dark:bg-stone-900 rounded-none border border-stone-200 dark:border-stone-800 p-6 border border-stone-100 dark:border-stone-800 ">
                 <h2 className="text-base font-black text-stone-800 dark:text-stone-100 flex items-center gap-2 mb-4">
                   <Tag className="w-4 h-4 text-amber-500" /> Coupon Code
@@ -277,7 +270,6 @@ const Checkout = () => {
                 {couponError && <p className="text-xs text-red-500 mt-2">{couponError}</p>}
               </div>
 
-              {/* Special instructions */}
               <div className="bg-white dark:bg-stone-900 rounded-none border border-stone-200 dark:border-stone-800 p-6 border border-stone-100 dark:border-stone-800 ">
                 <h2 className="text-base font-black text-stone-800 dark:text-stone-100 mb-4">📝 Special Instructions</h2>
                 <textarea
@@ -290,14 +282,12 @@ const Checkout = () => {
               </div>
             </div>
 
-            {/* Right: Order summary */}
             <div className="lg:col-span-2 space-y-6">
               <div className="bg-white dark:bg-stone-900 rounded-none border border-stone-200 dark:border-stone-800 p-6 border border-stone-100 dark:border-stone-800  sticky top-20">
                 <h2 className="text-base font-black text-stone-800 dark:text-stone-100 flex items-center gap-2 mb-5">
                   <ShoppingBag className="w-4 h-4 text-orange-600 dark:text-orange-400" /> Order Summary
                 </h2>
 
-                {/* Items */}
                 <div className="space-y-3 mb-5">
                   {items.map((item) => {
                     const addOnsTotal = item.selectedAddOns.reduce((s, a) => s + a.price, 0);
@@ -350,7 +340,6 @@ const Checkout = () => {
                   })}
                 </div>
 
-                {/* Divider */}
                 <div className="border-t border-stone-100 dark:border-stone-800 pt-4 space-y-2">
                   <div className="flex justify-between text-sm text-stone-500 dark:text-stone-400">
                     <span>Subtotal</span><span>${(subtotal / 100).toFixed(2)}</span>
@@ -368,20 +357,17 @@ const Checkout = () => {
                   </div>
                 </div>
 
-                {/* Delivery time estimate */}
                 <div className="mt-4 flex items-center gap-2 text-xs text-stone-400 bg-stone-50 dark:bg-stone-800 rounded-sm px-3 py-2">
                   <Clock className="w-3.5 h-3.5 text-orange-400" />
                   <span>Estimated delivery: <strong className="text-stone-700 dark:text-stone-300">30–45 minutes</strong></span>
                 </div>
 
-                {/* Error */}
                 {error && (
                   <div className="mt-4 px-4 py-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-sm text-xs text-red-600 dark:text-red-400 font-medium">
                     {error}
                   </div>
                 )}
 
-                {/* CTA */}
                 <button
                   type="submit"
                   disabled={placing}

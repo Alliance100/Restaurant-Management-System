@@ -16,7 +16,6 @@ const AdminLogin = () => {
   const navigate = useNavigate();
   const { isAuthenticated, user } = useSelector((state) => state.auth);
 
-  // Redirect if already logged in as admin
   useEffect(() => {
     if (isAuthenticated && user?.role === 'admin') {
       navigate('/admin/dashboard', { replace: true });
@@ -48,7 +47,6 @@ const AdminLogin = () => {
   return (
     <div className="min-h-screen bg-stone-950 flex flex-col">
 
-      {/* Top bar */}
       <div className="flex items-center justify-between px-6 py-4">
         <a
           href="http://localhost:5173"
@@ -65,11 +63,9 @@ const AdminLogin = () => {
         </div>
       </div>
 
-      {/* Main content */}
       <div className="flex-1 flex items-center justify-center px-4 py-10">
         <div className="w-full max-w-md">
 
-          {/* Header */}
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-600/20 border border-orange-600/30 rounded-none border border-stone-200 dark:border-stone-800 mb-5">
               <ShieldCheck className="w-8 h-8 text-orange-400" />
@@ -80,7 +76,6 @@ const AdminLogin = () => {
             </p>
           </div>
 
-          {/* Card */}
           <div className="bg-stone-900 border border-stone-800 rounded-none border border-stone-200 dark:border-stone-800 p-8 shadow-2xl">
 
             {error && (
@@ -91,7 +86,7 @@ const AdminLogin = () => {
             )}
 
             <form onSubmit={handleSubmit} className="space-y-5">
-              {/* Email */}
+              
               <div>
                 <label className="block text-sm font-semibold text-stone-300 mb-2">
                   Admin Email
@@ -110,7 +105,6 @@ const AdminLogin = () => {
                 </div>
               </div>
 
-              {/* Password */}
               <div>
                 <label className="block text-sm font-semibold text-stone-300 mb-2">
                   Password
@@ -136,7 +130,6 @@ const AdminLogin = () => {
                 </div>
               </div>
 
-              {/* Submit */}
               <button
                 id="admin-login-btn"
                 type="submit"
@@ -154,7 +147,6 @@ const AdminLogin = () => {
               </button>
             </form>
 
-            {/* Divider */}
             <div className="mt-6 pt-6 border-t border-stone-800 text-center">
               <p className="text-stone-600 text-xs">
                 Not an admin?{' '}
@@ -165,7 +157,6 @@ const AdminLogin = () => {
             </div>
           </div>
 
-          {/* Security notice */}
           <p className="text-center text-stone-600 text-xs mt-6">
             🔒 All access attempts are logged and monitored
           </p>

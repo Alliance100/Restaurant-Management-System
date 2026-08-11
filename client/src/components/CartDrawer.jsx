@@ -18,7 +18,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
 
   return (
     <>
-      {/* Backdrop */}
+      
       {isOpen && (
         <div
           className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm transition-opacity"
@@ -26,12 +26,11 @@ const CartDrawer = ({ isOpen, onClose }) => {
         />
       )}
 
-      {/* Drawer panel */}
       <div
         className={`fixed top-0 right-0 bottom-0 z-50 w-full max-w-sm bg-white dark:bg-stone-900 shadow-2xl flex flex-col transition-transform duration-300 ${isOpen ? 'translate-x-0' : 'translate-x-full'
           }`}
       >
-        {/* Header */}
+        
         <div className="flex items-center justify-between px-5 py-4 border-b border-stone-100 dark:border-stone-800">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 bg-orange-600 rounded-lg flex items-center justify-center">
@@ -60,7 +59,6 @@ const CartDrawer = ({ isOpen, onClose }) => {
           </div>
         </div>
 
-        {/* Items list */}
         <div className="flex-1 overflow-y-auto py-4 px-4 space-y-3">
           {items.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full gap-4 py-16 text-center">
@@ -89,7 +87,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
                   key={item.cartId}
                   className="bg-stone-50 dark:bg-stone-800 rounded-none border border-stone-200 dark:border-stone-800 p-3 flex gap-3"
                 >
-                  {/* Image */}
+                  
                   <div className="w-16 h-16 rounded-sm overflow-hidden flex-shrink-0 bg-stone-200 dark:bg-stone-700">
                     {item.imageUrl ? (
                       <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover" />
@@ -98,7 +96,6 @@ const CartDrawer = ({ isOpen, onClose }) => {
                     )}
                   </div>
 
-                  {/* Details */}
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-bold text-stone-800 dark:text-stone-100 truncate">{item.name}</p>
                     {item.selectedAddOns.length > 0 && (
@@ -107,7 +104,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
                       </p>
                     )}
                     <div className="flex items-center justify-between mt-2">
-                      {/* Qty controls */}
+                      
                       <div className="flex items-center bg-white dark:bg-stone-700 rounded-lg p-0.5 gap-0.5 border border-stone-200 dark:border-stone-600">
                         <button
                           onClick={() => dispatch(updateQuantity({ cartId: item.cartId, quantity: item.quantity - 1 }))}
@@ -131,7 +128,6 @@ const CartDrawer = ({ isOpen, onClose }) => {
                     </div>
                   </div>
 
-                  {/* Remove */}
                   <button
                     onClick={() => dispatch(removeFromCart(item.cartId))}
                     className="flex-shrink-0 w-7 h-7 rounded-lg flex items-center justify-center text-stone-300 dark:text-stone-600 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all self-start"
@@ -144,7 +140,6 @@ const CartDrawer = ({ isOpen, onClose }) => {
           )}
         </div>
 
-        {/* Footer summary */}
         {items.length > 0 && (
           <div className="border-t border-stone-100 dark:border-stone-800 p-5 space-y-4">
             <div className="space-y-2 text-sm">

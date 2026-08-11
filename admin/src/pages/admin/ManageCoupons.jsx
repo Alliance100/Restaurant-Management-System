@@ -14,8 +14,7 @@ const ManageCoupons = () => {
     usageLimit: '', expiresAt: '',
   });
   const [error, setError] = useState('');
-  
-  // Edit & Delete state
+
   const [editId, setEditId] = useState(null);
   const [deleteId, setDeleteId] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -113,7 +112,7 @@ const ManageCoupons = () => {
 
   return (
     <div className="space-y-6 max-w-4xl">
-      {/* Header */}
+      
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-black text-stone-800 dark:text-stone-100">Manage Coupons</h1>
@@ -127,7 +126,6 @@ const ManageCoupons = () => {
         </button>
       </div>
 
-      {/* Form */}
       {showForm && (
         <div className="bg-white dark:bg-stone-900 rounded-none border border-stone-200 dark:border-stone-800 border border-stone-100 dark:border-stone-800  p-6">
           <div className="flex items-center justify-between mb-5">
@@ -210,7 +208,6 @@ const ManageCoupons = () => {
         </div>
       )}
 
-      {/* List */}
       {loading ? (
         <div className="bg-white dark:bg-stone-900 rounded-none border border-stone-200 dark:border-stone-800 border border-stone-100 dark:border-stone-800  p-6 space-y-4">
           {[...Array(3)].map((_, i) => (
@@ -304,7 +301,6 @@ const ManageCoupons = () => {
         </div>
       )}
 
-      {/* Delete Confirmation Modal */}
       {showDeleteModal && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
           <div className="bg-white dark:bg-stone-900 rounded-none border border-stone-200 dark:border-stone-800 p-6 max-w-sm w-full border border-stone-100 dark:border-stone-800 shadow-2xl">

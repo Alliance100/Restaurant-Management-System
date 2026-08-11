@@ -47,11 +47,9 @@ const PublicLayout = () => {
   return (
     <div className="min-h-screen bg-white dark:bg-stone-950 text-stone-900 dark:text-stone-100 flex flex-col transition-colors duration-200">
 
-      {/* ── NAVBAR ─────────────────────────────────────────────────────── */}
       <header className="sticky top-0 z-50 w-full bg-white dark:bg-stone-900 border-b border-stone-200 dark:border-stone-800  transition-colors duration-200">
         <div className="container mx-auto flex h-16 items-center justify-between px-4 max-w-7xl">
 
-          {/* Logo */}
           <Link to="/" className="flex items-center gap-2.5 shrink-0">
             <div className="w-8 h-8 bg-orange-600 rounded-lg flex items-center justify-center ">
               <Utensils className="h-4 w-4 text-white" />
@@ -59,7 +57,6 @@ const PublicLayout = () => {
             <span className="text-lg font-black tracking-tight">TableCraft</span>
           </Link>
 
-          {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => (
               <Link key={link.href} to={link.href}
@@ -73,15 +70,13 @@ const PublicLayout = () => {
             ))}
           </nav>
 
-          {/* Right: theme toggle + cart + auth */}
           <div className="hidden md:flex items-center gap-2">
-            {/* Theme Toggle */}
+            
             <button onClick={toggleTheme} title="Toggle theme"
               className="w-9 h-9 rounded-sm flex items-center justify-center text-stone-500 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all border border-stone-200 dark:border-stone-700">
               {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </button>
 
-            {/* Cart Button */}
             <button
               id="cart-btn"
               onClick={() => setCartOpen(true)}
@@ -132,7 +127,6 @@ const PublicLayout = () => {
             )}
           </div>
 
-          {/* Mobile: theme + cart + hamburger */}
           <div className="md:hidden flex items-center gap-1.5">
             <button onClick={toggleTheme}
               className="w-9 h-9 rounded-sm flex items-center justify-center text-stone-500 dark:text-stone-400 border border-stone-200 dark:border-stone-700 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all">
@@ -157,12 +151,10 @@ const PublicLayout = () => {
         </div>
       </header>
 
-      {/* ── MOBILE MENU BACKDROP ─────────────────────────────────────── */}
       {mobileOpen && (
         <div className="fixed inset-0 z-40 bg-stone-900/50 backdrop-blur-sm md:hidden" onClick={() => setMobileOpen(false)} />
       )}
 
-      {/* ── MOBILE MENU PANEL ────────────────────────────────────────── */}
       <div className={`fixed top-16 left-0 right-0 z-40 md:hidden transition-all duration-300 px-3 ${mobileOpen ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-3 pointer-events-none'}`}>
         <div className="bg-white dark:bg-stone-900 rounded-none border border-stone-200 dark:border-stone-800 shadow-2xl border border-stone-100 dark:border-stone-800 overflow-hidden">
           <nav className="p-3 space-y-1">
@@ -218,10 +210,8 @@ const PublicLayout = () => {
         </div>
       </div>
 
-      {/* ── CONTENT ──────────────────────────────────────────────────── */}
       <main className="flex-1"><Outlet /></main>
 
-      {/* ── FOOTER ───────────────────────────────────────────────────── */}
       <footer className="bg-stone-900 dark:bg-stone-950 border-t border-stone-800">
         <div className="container mx-auto px-4 max-w-7xl py-12">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-8">
@@ -267,13 +257,10 @@ const PublicLayout = () => {
         </div>
       </footer>
 
-      {/* ── CART DRAWER ──────────────────────────────────────────────── */}
       <CartDrawer isOpen={cartOpen} onClose={() => setCartOpen(false)} />
 
-      {/* ── PROFILE MODAL ────────────────────────────────────────────── */}
       <ProfileModal isOpen={showProfileModal} onClose={() => setShowProfileModal(false)} />
 
-      {/* ── LOGOUT MODAL ─────────────────────────────────────────────── */}
       {showLogoutModal && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
           <div className="bg-white dark:bg-stone-900 rounded-none border border-stone-200 dark:border-stone-800 p-6 max-w-sm w-full border border-stone-100 dark:border-stone-800 shadow-2xl">

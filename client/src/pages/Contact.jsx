@@ -68,7 +68,6 @@ const Contact = () => {
     <PageTransition>
     <div className="bg-white dark:bg-stone-950 min-h-screen transition-colors duration-200">
 
-      {/* ── HERO ──────────────────────────────────────────────────────── */}
       <section className="relative py-20 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-stone-900 via-orange-950 to-stone-900" />
         <div className="absolute top-0 left-1/4 w-80 h-80 bg-orange-600/20 rounded-sm blur-3xl" />
@@ -88,7 +87,6 @@ const Contact = () => {
         </div>
       </section>
 
-      {/* ── CONTACT CARDS ──────────────────────────────────────────────── */}
       <section className="py-16 bg-stone-50 dark:bg-stone-900">
         <div className="container mx-auto px-6 max-w-7xl">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -109,16 +107,14 @@ const Contact = () => {
         </div>
       </section>
 
-      {/* ── MAP + FORM ─────────────────────────────────────────────────── */}
       <section className="py-16 bg-white dark:bg-stone-950">
         <div className="container mx-auto px-6 max-w-7xl">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-10">
 
-            {/* Map / Address visual */}
             <div className="lg:col-span-2 flex flex-col gap-6">
-              {/* Decorative map placeholder */}
+              
               <div className="relative rounded-none border border-stone-200 dark:border-stone-800 overflow-hidden h-64 lg:h-full min-h-[280px] bg-stone-900 border border-stone-200 dark:border-stone-800 ">
-                {/* Stylized map grid */}
+                
                 <div className="absolute inset-0 opacity-20"
                   style={{
                     backgroundImage: 'linear-gradient(to right, #6366f1 1px, transparent 1px), linear-gradient(to bottom, #6366f1 1px, transparent 1px)',
@@ -127,7 +123,6 @@ const Contact = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-stone-900/20 to-stone-900/80" />
 
-                {/* Fake roads */}
                 <svg className="absolute inset-0 w-full h-full opacity-30" viewBox="0 0 400 300">
                   <line x1="0" y1="150" x2="400" y2="150" stroke="#6366f1" strokeWidth="8" />
                   <line x1="200" y1="0" x2="200" y2="300" stroke="#6366f1" strokeWidth="8" />
@@ -137,7 +132,6 @@ const Contact = () => {
                   <line x1="300" y1="0" x2="300" y2="300" stroke="#8b5cf6" strokeWidth="4" />
                 </svg>
 
-                {/* Pin */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-1">
                   <div className="w-14 h-14 bg-orange-600 rounded-sm flex items-center justify-center shadow-2xl shadow-orange-600/60 ring-4 ring-white/20 animate-pulse">
                     <ChefHat className="w-7 h-7 text-white" />
@@ -148,7 +142,6 @@ const Contact = () => {
                 </div>
               </div>
 
-              {/* Address Card */}
               <div className="bg-gradient-to-br from-orange-600 to-amber-700 rounded-none border border-stone-200 dark:border-stone-800 p-6 text-white">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 bg-white/15 rounded-sm flex items-center justify-center">
@@ -167,7 +160,6 @@ const Contact = () => {
               </div>
             </div>
 
-            {/* Contact Form */}
             <div className="lg:col-span-3">
               <div className="bg-white dark:bg-stone-900 rounded-none border border-stone-200 dark:border-stone-800 p-8 border border-stone-100 dark:border-stone-800 ">
                 <div className="mb-8">

@@ -44,7 +44,7 @@ const AdminLayout = () => {
       }
     };
     fetchUnreadCount();
-    // Poll every 30 seconds
+
     const interval = setInterval(fetchUnreadCount, 30000);
     return () => clearInterval(interval);
   }, [location.pathname]);
@@ -55,7 +55,6 @@ const AdminLayout = () => {
     return () => { document.body.style.overflow = ''; };
   }, [sidebarOpen]);
 
-  // Dynamic document title for the admin panel
   useEffect(() => {
     const pageTitle = pageTitles[location.pathname] || 'Admin Panel';
     document.title = `TableCraft Admin | ${pageTitle}`;
@@ -74,7 +73,7 @@ const AdminLayout = () => {
 
   const SidebarContent = () => (
     <>
-      {/* Brand */}
+      
       <div className="px-5 py-4 border-b border-stone-800">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 bg-orange-600 rounded-lg flex items-center justify-center">
@@ -87,7 +86,6 @@ const AdminLayout = () => {
         </div>
       </div>
 
-      {/* Nav */}
       <nav className="flex-1 px-3 py-4 space-y-1">
         {navItems.map(({ to, icon: Icon, label }) => {
           const active = location.pathname === to;
@@ -109,7 +107,6 @@ const AdminLayout = () => {
         })}
       </nav>
 
-      {/* User */}
       <div className="p-3 border-t border-stone-800 space-y-1.5">
         {user && (
           <div className="flex items-center gap-3 px-3 py-2.5 rounded-sm bg-stone-800/60">
@@ -133,17 +130,14 @@ const AdminLayout = () => {
   return (
     <div className="min-h-screen bg-stone-100 dark:bg-stone-950 flex transition-colors duration-200">
 
-      {/* Desktop sidebar */}
       <aside className="hidden md:flex w-60 bg-stone-900 dark:bg-stone-900 flex-col fixed inset-y-0 left-0 z-30">
         <SidebarContent />
       </aside>
 
-      {/* Mobile backdrop */}
       {sidebarOpen && (
         <div className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm md:hidden" onClick={() => setSidebarOpen(false)} />
       )}
 
-      {/* Mobile sidebar */}
       <aside className={`fixed top-0 left-0 bottom-0 z-50 w-64 bg-stone-900 flex flex-col md:hidden transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <button onClick={() => setSidebarOpen(false)} className="absolute top-4 right-3 w-7 h-7 bg-stone-800 hover:bg-stone-700 rounded-lg flex items-center justify-center">
           <X className="w-3.5 h-3.5 text-stone-400" />
@@ -151,10 +145,8 @@ const AdminLayout = () => {
         <SidebarContent />
       </aside>
 
-      {/* Main area */}
       <div className="flex-1 flex flex-col min-h-screen md:ml-60">
 
-        {/* Header */}
         <header className="sticky top-0 z-20 h-14 bg-white dark:bg-stone-900 border-b border-stone-200 dark:border-stone-800 flex items-center px-4 gap-3  transition-colors duration-200">
           <button id="admin-menu-toggle" onClick={() => setSidebarOpen(true)}
             className="md:hidden w-8 h-8 flex items-center justify-center rounded-lg text-stone-600 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all">
@@ -169,7 +161,6 @@ const AdminLayout = () => {
             View Site ↗
           </a>
 
-          {/* Theme toggle */}
           <button onClick={toggleTheme} title="Toggle theme"
             className="w-8 h-8 flex items-center justify-center rounded-lg text-stone-500 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800 border border-stone-200 dark:border-stone-700 transition-all">
             {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
@@ -180,13 +171,11 @@ const AdminLayout = () => {
           </div>
         </header>
 
-        {/* Content */}
         <main className="flex-1 p-4 md:p-6 overflow-auto">
           <Outlet />
         </main>
       </div>
 
-      {/* Logout Modal */}
       {showLogoutModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
           <div className="bg-white dark:bg-stone-900 rounded-none border border-stone-200 dark:border-stone-800 p-6 max-w-sm w-full border border-stone-100 dark:border-stone-800 shadow-2xl">

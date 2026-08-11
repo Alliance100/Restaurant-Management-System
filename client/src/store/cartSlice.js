@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-// Persist cart to localStorage
 const loadCart = () => {
   try {
     const saved = localStorage.getItem('tablecraft_cart');
@@ -22,11 +21,10 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    // Add item or increase quantity if same item+addons combo
+
     addToCart: (state, action) => {
       const { menuItemId, name, slug, imageUrl, categoryName, basePrice, quantity = 1, selectedAddOns = [] } = action.payload;
 
-      // Create a unique key based on menuItemId + sorted addon ids
       const addonKey = selectedAddOns.map(a => a._id).sort().join('|');
       const existingIndex = state.items.findIndex(
         (i) => i.menuItemId === menuItemId && i.addonKey === addonKey
@@ -77,7 +75,6 @@ const cartSlice = createSlice({
   },
 });
 
-// Selectors
 export const selectCartItems = (state) => state.cart.items;
 export const selectCartCount = (state) => state.cart.items.reduce((sum, i) => sum + i.quantity, 0);
 export const selectCartSubtotal = (state) =>

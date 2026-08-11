@@ -54,7 +54,7 @@ const OrderRow = ({ order, onStatusChange, updating }) => {
   return (
     <>
       <div className={`bg-white dark:bg-stone-900 rounded-none border border-stone-200 dark:border-stone-800 border  transition-all mb-3 ${STATUS_CONFIG[order.status]?.border || 'border-stone-100 dark:border-stone-800'}`}>
-        {/* Main row */}
+        
         <div className="p-5">
           <div className="flex flex-wrap gap-4 items-start justify-between">
             <div className="flex-1 min-w-0">
@@ -80,7 +80,6 @@ const OrderRow = ({ order, onStatusChange, updating }) => {
             </div>
           </div>
 
-          {/* Action buttons */}
           {nextStatuses.length > 0 && (
             <div className="flex flex-wrap gap-2 mt-4">
               {nextStatuses.map((ns) => {
@@ -100,7 +99,6 @@ const OrderRow = ({ order, onStatusChange, updating }) => {
             </div>
           )}
 
-          {/* Expand toggle */}
           <button
             onClick={() => setExpanded(!expanded)}
             className="flex items-center gap-1 text-xs font-semibold text-stone-400 hover:text-stone-700 dark:hover:text-stone-200 transition-colors mt-3"
@@ -110,10 +108,9 @@ const OrderRow = ({ order, onStatusChange, updating }) => {
           </button>
         </div>
 
-        {/* Expanded */}
         {expanded && (
           <div className="border-t border-stone-100 dark:border-stone-800 px-5 py-4 space-y-4">
-            {/* Items */}
+            
             <div>
               <p className="text-xs font-bold text-stone-400 uppercase tracking-wider mb-2">Items</p>
               <div className="space-y-2">
@@ -140,7 +137,6 @@ const OrderRow = ({ order, onStatusChange, updating }) => {
               </div>
             </div>
 
-            {/* Address + Notes */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="bg-stone-50 dark:bg-stone-800 rounded-sm px-3 py-2.5">
                 <p className="text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-1">Delivery Address</p>
@@ -157,7 +153,6 @@ const OrderRow = ({ order, onStatusChange, updating }) => {
               )}
             </div>
 
-            {/* Status history */}
             <div>
               <p className="text-xs font-bold text-stone-400 uppercase tracking-wider mb-2">Timeline</p>
               <div className="space-y-1.5">
@@ -179,7 +174,6 @@ const OrderRow = ({ order, onStatusChange, updating }) => {
         )}
       </div>
 
-      {/* Confirmation Modal */}
       {noteModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
           <div className="bg-white dark:bg-stone-900 rounded-none border border-stone-200 dark:border-stone-800 p-6 max-w-sm w-full border border-stone-100 dark:border-stone-800 shadow-2xl">
@@ -249,7 +243,6 @@ const ManageOrders = () => {
 
   useEffect(() => { fetchOrders(); }, [fetchOrders]);
 
-  // Auto-refresh every 20s
   useEffect(() => {
     const interval = setInterval(fetchOrders, 20000);
     return () => clearInterval(interval);
@@ -271,7 +264,7 @@ const ManageOrders = () => {
 
   return (
     <div className="space-y-6 max-w-5xl">
-      {/* Header */}
+      
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black text-stone-800 dark:text-stone-100 flex items-center gap-2">
@@ -290,7 +283,6 @@ const ManageOrders = () => {
         </button>
       </div>
 
-      {/* Search */}
       <div className="relative">
         <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400" />
         <input
@@ -302,7 +294,6 @@ const ManageOrders = () => {
         />
       </div>
 
-      {/* Status tabs */}
       <div className="flex flex-wrap gap-2">
         {STATUS_TABS.map((tab) => (
           <button
@@ -319,7 +310,6 @@ const ManageOrders = () => {
         ))}
       </div>
 
-      {/* Orders list */}
       {loading ? (
         <div className="space-y-4">
           {[...Array(4)].map((_, i) => (

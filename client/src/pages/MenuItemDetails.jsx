@@ -79,7 +79,6 @@ const MenuItemDetails = () => {
     <div className="bg-stone-50 dark:bg-stone-950 min-h-screen py-8 transition-colors duration-200">
       <div className="container mx-auto px-4 max-w-4xl">
 
-        {/* Back */}
         <button onClick={() => navigate('/menu')}
           className="flex items-center gap-2 text-sm font-semibold text-stone-500 dark:text-stone-400 hover:text-orange-600 dark:hover:text-orange-400 mb-6 transition-colors group">
           <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> Back to Menu
@@ -88,7 +87,6 @@ const MenuItemDetails = () => {
         <div className="bg-white dark:bg-stone-900 rounded-none border border-stone-200 dark:border-stone-800  border border-stone-200 dark:border-stone-800 overflow-hidden">
           <div className="flex flex-col md:flex-row">
 
-            {/* ── IMAGE ─────────────────────────────────────────────────── */}
             <div className="md:w-[42%] flex-shrink-0 relative bg-stone-100 dark:bg-stone-800">
               {item.imageUrl ? (
                 <img src={item.imageUrl} alt={item.name}
@@ -108,7 +106,6 @@ const MenuItemDetails = () => {
               )}
             </div>
 
-            {/* ── DETAILS ───────────────────────────────────────────────── */}
             <div className="flex-1 p-6 md:p-8 flex flex-col">
               <div className="text-xs font-bold text-orange-500 dark:text-orange-400 uppercase tracking-widest mb-1">
                 {item.categoryId?.name}
@@ -120,7 +117,6 @@ const MenuItemDetails = () => {
                 {item.description}
               </p>
 
-              {/* Meta */}
               <div className="flex items-center gap-4 text-xs text-stone-400 dark:text-stone-500 mb-6">
                 <span className="flex items-center gap-1.5">
                   <Clock className="w-3.5 h-3.5 text-orange-400" /> {item.preparationMinutes} min prep
@@ -132,7 +128,6 @@ const MenuItemDetails = () => {
                 )}
               </div>
 
-              {/* Add-ons */}
               {item.addOns?.length > 0 && (
                 <div className="mb-6">
                   <h3 className="text-xs font-bold text-stone-500 dark:text-stone-400 uppercase tracking-wider mb-3">Customize</h3>
@@ -159,7 +154,6 @@ const MenuItemDetails = () => {
                 </div>
               )}
 
-              {/* Price + Quantity + CTA */}
               <div className="mt-auto pt-5 border-t border-stone-100 dark:border-stone-800 flex items-center justify-between gap-4 flex-wrap">
                 <div>
                   <div className="text-xs text-stone-400 dark:text-stone-500 mb-0.5">Total</div>
@@ -168,7 +162,7 @@ const MenuItemDetails = () => {
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
-                  {/* Qty */}
+                  
                   <div className="flex items-center bg-stone-100 dark:bg-stone-800 rounded-sm p-1 gap-1">
                     <button onClick={() => setQuantity(Math.max(1, quantity - 1))}
                       className="w-8 h-8 rounded-lg bg-white dark:bg-stone-700  flex items-center justify-center font-bold text-stone-700 dark:text-stone-200 hover:text-orange-600 transition-colors">−</button>
@@ -176,7 +170,7 @@ const MenuItemDetails = () => {
                     <button onClick={() => setQuantity(quantity + 1)}
                       className="w-8 h-8 rounded-lg bg-white dark:bg-stone-700  flex items-center justify-center font-bold text-stone-700 dark:text-stone-200 hover:text-orange-600 transition-colors">+</button>
                   </div>
-                  {/* Add to cart */}
+                  
                   <button
                     onClick={handleAddToCart}
                     className={`flex items-center gap-2 px-6 py-2.5 rounded-sm font-bold text-sm transition-all  active:scale-95 ${added
@@ -193,7 +187,6 @@ const MenuItemDetails = () => {
                 </div>
               </div>
 
-              {/* Quick view cart hint */}
               {added && (
                 <div className="mt-3 text-center">
                   <Link to="/checkout" className="text-sm font-semibold text-orange-600 dark:text-orange-400 hover:underline">

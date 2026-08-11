@@ -20,12 +20,12 @@ const ProtectedRoute = ({ allowedRoles = [] }) => {
   const requiresAdmin = allowedRoles.includes('admin');
 
   if (!isAuthenticated || !user) {
-    // Redirect admin routes to /admin/login, others to /login
+
     return <Navigate to={requiresAdmin ? '/admin/login' : '/login'} replace state={{ from: location }} />;
   }
 
   if (allowedRoles.length > 0 && !allowedRoles.includes(user.role)) {
-    // If a customer tries to access admin pages, go to admin login
+
     return <Navigate to={requiresAdmin ? '/admin/login' : '/'} replace />;
   }
 

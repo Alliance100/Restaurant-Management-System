@@ -56,7 +56,6 @@ const Menu = () => {
     <PageTransition>
     <div className="min-h-screen bg-stone-50 dark:bg-stone-950 transition-colors duration-200">
 
-      {/* ── PAGE HEADER ──────────────────────────────────────────────────── */}
       <div className="bg-gradient-to-br from-orange-600 via-amber-600 to-purple-700 py-16 px-4 text-center relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-10 left-20 w-64 h-64 bg-white rounded-sm blur-3xl" />
@@ -75,7 +74,6 @@ const Menu = () => {
 
       <div className="container mx-auto px-4 max-w-7xl py-10">
 
-        {/* ── CATEGORY PILLS ───────────────────────────────────────────────── */}
         <div className="mb-8 overflow-x-auto pb-2 -mx-4 px-4 scrollbar-hide">
           <div className="flex gap-2.5 w-max">
             <button
@@ -107,9 +105,8 @@ const Menu = () => {
           </div>
         </div>
 
-        {/* ── SEARCH + FILTERS BAR ─────────────────────────────────────────── */}
         <div className="flex flex-col sm:flex-row gap-3 mb-8">
-          {/* Search */}
+          
           <div className="relative flex-1">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400 pointer-events-none" />
             <input
@@ -130,7 +127,6 @@ const Menu = () => {
             )}
           </div>
 
-          {/* Filter toggle (mobile) */}
           <button
             onClick={() => setFiltersOpen(!filtersOpen)}
             className={`sm:hidden flex items-center justify-center gap-2 px-5 py-3 rounded-none border border-stone-200 dark:border-stone-800 text-sm font-bold border transition-all  ${
@@ -143,7 +139,6 @@ const Menu = () => {
             Filters {activeFilterCount > 0 && `(${activeFilterCount})`}
           </button>
 
-          {/* Sort + Dietary (desktop inline) */}
           <div className="hidden sm:flex gap-3">
             <select
               id="dietary-filter"
@@ -179,7 +174,6 @@ const Menu = () => {
           )}
         </div>
 
-        {/* Mobile Filters Panel */}
         {filtersOpen && (
           <div className="sm:hidden bg-white dark:bg-stone-900 border border-stone-100 dark:border-stone-800 rounded-none border border-stone-200 dark:border-stone-800 p-4 mb-6  animate-slide-down space-y-4">
             <div>
@@ -216,7 +210,6 @@ const Menu = () => {
           </div>
         )}
 
-        {/* ── RESULTS COUNT ────────────────────────────────────────────────── */}
         {!loading && (
           <div className="flex items-center justify-between mb-6">
             <p className="text-sm font-medium text-stone-500 dark:text-stone-400">
@@ -227,7 +220,6 @@ const Menu = () => {
           </div>
         )}
 
-        {/* ── GRID ─────────────────────────────────────────────────────────── */}
         {loading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {[...Array(8)].map((_, i) => (
@@ -277,7 +269,7 @@ const Menu = () => {
                     to={`/menu/${item.slug}`}
                     className="group bg-white dark:bg-stone-900 rounded-none border border-stone-200 dark:border-stone-800 overflow-hidden hover:shadow-2xl dark:hover:shadow-orange-900/20 border border-stone-100 dark:border-stone-800 transition-all duration-300 card-lift flex flex-col h-full"
                   >
-                  {/* Image */}
+                  
                   <div className="aspect-[4/3] relative overflow-hidden bg-stone-100 dark:bg-stone-800">
                     <img
                       src={item.imageUrl || 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=70'}
@@ -287,27 +279,23 @@ const Menu = () => {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
 
-                    {/* Featured badge */}
                     {item.isFeatured && (
                       <div className="absolute top-3 left-3 bg-amber-400 text-amber-900 text-xs font-bold px-2.5 py-1 rounded-sm flex items-center gap-1 ">
                         <Star className="w-3 h-3 fill-current" /> Featured
                       </div>
                     )}
 
-                    {/* Dietary badge */}
                     {dietary && (
                       <div className={`absolute top-3 right-3 text-xs font-bold px-2.5 py-1 rounded-sm  ${dietary.color}`}>
                         {dietary.label}
                       </div>
                     )}
 
-                    {/* Prep time */}
                     <div className="absolute bottom-3 right-3 bg-black/70 backdrop-blur-sm text-white text-xs font-semibold px-2.5 py-1 rounded-sm flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                       <Clock className="w-3 h-3" /> {item.preparationMinutes} min
                     </div>
                   </div>
 
-                  {/* Content */}
                   <div className="p-5 flex flex-col flex-1">
                     <div className="text-xs font-bold text-orange-500 dark:text-orange-400 uppercase tracking-wider mb-1.5">
                       {item.categoryId?.name}
@@ -319,7 +307,6 @@ const Menu = () => {
                       {item.description}
                     </p>
 
-                    {/* Add-ons indicator */}
                     {item.addOns && item.addOns.length > 0 && (
                       <div className="flex items-center gap-1 text-xs text-stone-400 dark:text-stone-500 mb-3">
                         <Leaf className="w-3 h-3" />

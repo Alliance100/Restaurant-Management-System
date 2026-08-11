@@ -9,7 +9,6 @@ import PublicLayout from './layouts/PublicLayout';
 import ProtectedRoute from './routes/ProtectedRoute';
 import ScrollToTop from './components/ScrollToTop';
 
-// Public pages
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -19,20 +18,17 @@ import Contact from './pages/Contact';
 import MyOrders from './pages/MyOrders';
 import Checkout from './pages/Checkout';
 
-
-
 const App = () => {
   const dispatch = useDispatch();
   const { isAuthenticated } = useSelector((s) => s.auth);
 
-  // Session persistence — try to restore user from existing HTTP-only cookie
   useEffect(() => {
     const restoreSession = async () => {
       try {
         const res = await api.get('/auth/me');
         dispatch(setCredentials({ user: res.data.data }));
       } catch (_) {
-        // Not logged in — that's fine
+
         dispatch(setLoading(false));
       }
     };
@@ -46,7 +42,7 @@ const App = () => {
       <ScrollToTop />
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
-          {/* ── Public Routes (with Navbar + Footer) ──────────────────────── */}
+          
           <Route element={<PublicLayout />}>
         <Route path="/"            element={<Home />} />
         <Route path="/menu"        element={<Menu />} />
@@ -55,16 +51,12 @@ const App = () => {
         <Route path="/register"    element={<Register />} />
         <Route path="/contact"     element={<Contact />} />
 
-        {/* Protected customer routes */}
         <Route element={<ProtectedRoute allowedRoles={['customer', 'admin']} />}>
           <Route path="/checkout"  element={<Checkout />} />
           <Route path="/my-orders" element={<MyOrders />} />
         </Route>
       </Route>
 
-
-
-      {/* ── 404 fallback ───────────────────────────────────────────────── */}
       <Route path="*" element={
         <div className="min-h-screen flex items-center justify-center bg-stone-50 dark:bg-stone-950">
           <div className="text-center">

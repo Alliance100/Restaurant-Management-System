@@ -73,7 +73,6 @@ const Dashboard = () => {
   return (
     <div className="space-y-8 max-w-6xl">
 
-      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black text-stone-800 dark:text-stone-100">Welcome back!</h1>
@@ -98,7 +97,6 @@ const Dashboard = () => {
         </Link>
       </div>
 
-      {/* Stat Cards */}
       {loading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {[...Array(4)].map((_, i) => (
@@ -142,7 +140,6 @@ const Dashboard = () => {
         </div>
       )}
 
-      {/* Quick Actions + Orders panel */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-white dark:bg-stone-900 rounded-none border border-stone-200 dark:border-stone-800 p-6 border border-stone-100 dark:border-stone-800 ">
           <h3 className="text-base font-bold text-stone-800 dark:text-stone-100 mb-5 flex items-center gap-2">
@@ -186,7 +183,6 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Order Status Overview */}
         <div className="bg-white dark:bg-stone-900 rounded-none border border-stone-200 dark:border-stone-800 p-6 border border-stone-100 dark:border-stone-800 ">
           <h3 className="text-base font-bold text-stone-800 dark:text-stone-100 mb-5 flex items-center gap-2">
             <Package className="w-4 h-4 text-orange-600 dark:text-orange-400" /> Order Status
@@ -219,7 +215,6 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Revenue chart placeholder → now shows real info */}
       <div className="bg-white dark:bg-stone-900 rounded-none border border-stone-200 dark:border-stone-800 p-8 border border-stone-100 dark:border-stone-800 ">
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-base font-bold text-stone-800 dark:text-stone-100">Revenue Overview</h3>

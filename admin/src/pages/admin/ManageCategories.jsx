@@ -27,7 +27,6 @@ const ManageCategories = () => {
 
   useEffect(() => { fetchCategories(); }, []);
 
-  // Auto-generate slug from name
   const handleNameChange = (name) => {
     const slug = name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
     setFormData((f) => ({ ...f, name, slug }));
@@ -76,7 +75,7 @@ const ManageCategories = () => {
 
   return (
     <div className="space-y-5 max-w-4xl">
-      {/* Header */}
+      
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-xl font-black text-stone-800 dark:text-stone-100">Categories</h1>
@@ -88,7 +87,6 @@ const ManageCategories = () => {
         </button>
       </div>
 
-      {/* Table */}
       <div className="bg-white dark:bg-stone-900 rounded-none border border-stone-200 dark:border-stone-800 border border-stone-200 dark:border-stone-800 overflow-hidden ">
         <table className="w-full text-left">
           <thead>
@@ -139,11 +137,10 @@ const ManageCategories = () => {
         </table>
       </div>
 
-      {/* ── MODAL ──────────────────────────────────────────────────────── */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-white dark:bg-stone-900 rounded-none border border-stone-200 dark:border-stone-800 w-full max-w-md shadow-2xl border border-stone-200 dark:border-stone-700 overflow-hidden">
-            {/* Modal header */}
+            
             <div className="flex items-center justify-between px-6 py-4 border-b border-stone-100 dark:border-stone-800">
               <h2 className="text-base font-bold text-stone-800 dark:text-stone-100">{editId ? 'Edit' : 'Add'} Category</h2>
               <button onClick={() => setIsModalOpen(false)} className="w-7 h-7 flex items-center justify-center rounded-lg text-stone-400 hover:text-stone-600 dark:hover:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all">
@@ -151,7 +148,6 @@ const ManageCategories = () => {
               </button>
             </div>
 
-            {/* Modal body */}
             <form onSubmit={handleSubmit} className="p-6 space-y-4">
               {error && (
                 <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 text-sm px-4 py-3 rounded-sm">
@@ -159,7 +155,6 @@ const ManageCategories = () => {
                 </div>
               )}
 
-              {/* Name */}
               <div>
                 <label className="block text-xs font-bold text-stone-600 dark:text-stone-300 uppercase tracking-wider mb-1.5">Name *</label>
                 <input type="text" value={formData.name} onChange={(e) => handleNameChange(e.target.value)} required
@@ -167,7 +162,6 @@ const ManageCategories = () => {
                   className="w-full px-3 py-2.5 text-sm rounded-sm border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 text-stone-800 dark:text-stone-100 placeholder-stone-400 focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 transition-all" />
               </div>
 
-              {/* Slug */}
               <div>
                 <label className="block text-xs font-bold text-stone-600 dark:text-stone-300 uppercase tracking-wider mb-1.5">Slug *</label>
                 <input type="text" value={formData.slug} onChange={(e) => set('slug', e.target.value)} required
@@ -175,13 +169,11 @@ const ManageCategories = () => {
                   className="w-full px-3 py-2.5 text-sm rounded-sm border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 text-stone-800 dark:text-stone-100 placeholder-stone-400 focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 transition-all font-mono" />
               </div>
 
-              {/* Image Upload */}
               <div>
                 <label className="block text-xs font-bold text-stone-600 dark:text-stone-300 uppercase tracking-wider mb-1.5">Image</label>
                 <ImageUpload value={formData.imageUrl} onChange={(url) => set('imageUrl', url)} />
               </div>
 
-              {/* Sort + Active row */}
               <div className="flex gap-4 items-end">
                 <div className="flex-1">
                   <label className="block text-xs font-bold text-stone-600 dark:text-stone-300 uppercase tracking-wider mb-1.5">Sort Order</label>
@@ -195,7 +187,6 @@ const ManageCategories = () => {
                 </div>
               </div>
 
-              {/* Submit */}
               <button type="submit" disabled={saving}
                 className="w-full bg-orange-600 hover:bg-orange-500 disabled:opacity-60 text-white font-bold py-3 rounded-sm transition-all flex items-center justify-center gap-2 mt-2">
                 {saving ? <><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-sm animate-spin" /> Saving…</> : `${editId ? 'Update' : 'Create'} Category`}

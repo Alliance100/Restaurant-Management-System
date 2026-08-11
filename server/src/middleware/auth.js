@@ -3,7 +3,9 @@ import User from '../models/User.js';
 
 export const authenticate = async (req, res, next) => {
   try {
-    const token = req.cookies.jwt;
+    const appRole = req.headers['x-app-role'] || 'customer';
+    const cookieName = appRole === 'admin' ? 'jwt_admin' : 'jwt_customer';
+    const token = req.cookies[cookieName];
     if (!token) {
       return res.status(401).json({ success: false, message: 'Authentication required' });
     }

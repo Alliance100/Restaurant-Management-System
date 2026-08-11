@@ -70,7 +70,7 @@ const ManageCategories = () => {
 
   if (loading) return (
     <div className="flex items-center justify-center h-64">
-      <div className="w-8 h-8 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin" />
+      <div className="w-8 h-8 border-4 border-orange-200 border-t-orange-600 rounded-sm animate-spin" />
     </div>
   );
 
@@ -79,46 +79,46 @@ const ManageCategories = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-black text-slate-800 dark:text-slate-100">Categories</h1>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">{categories.length} categories total</p>
+          <h1 className="text-xl font-black text-stone-800 dark:text-stone-100">Categories</h1>
+          <p className="text-sm text-stone-500 dark:text-stone-400 mt-0.5">{categories.length} categories total</p>
         </div>
         <button onClick={openAdd}
-          className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2.5 rounded-xl text-sm font-bold transition-all shadow-sm">
+          className="flex items-center gap-2 bg-orange-600 hover:bg-orange-500 text-white px-4 py-2.5 rounded-sm text-sm font-bold transition-all ">
           <Plus className="w-4 h-4" /> Add Category
         </button>
       </div>
 
       {/* Table */}
-      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
+      <div className="bg-white dark:bg-stone-900 rounded-none border border-stone-200 dark:border-stone-800 border border-stone-200 dark:border-stone-800 overflow-hidden ">
         <table className="w-full text-left">
           <thead>
-            <tr className="border-b border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50">
-              <th className="px-5 py-3 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Category</th>
-              <th className="px-5 py-3 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider hidden sm:table-cell">Slug</th>
-              <th className="px-5 py-3 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Status</th>
-              <th className="px-5 py-3 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-right">Action</th>
+            <tr className="border-b border-stone-100 dark:border-stone-800 bg-stone-50 dark:bg-stone-800/50">
+              <th className="px-5 py-3 text-xs font-bold text-stone-500 dark:text-stone-400 uppercase tracking-wider">Category</th>
+              <th className="px-5 py-3 text-xs font-bold text-stone-500 dark:text-stone-400 uppercase tracking-wider hidden sm:table-cell">Slug</th>
+              <th className="px-5 py-3 text-xs font-bold text-stone-500 dark:text-stone-400 uppercase tracking-wider">Status</th>
+              <th className="px-5 py-3 text-xs font-bold text-stone-500 dark:text-stone-400 uppercase tracking-wider text-right">Action</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-50 dark:divide-slate-800">
+          <tbody className="divide-y divide-stone-50 dark:divide-stone-800">
             {categories.map((cat) => (
-              <tr key={cat._id} className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+              <tr key={cat._id} className="hover:bg-stone-50 dark:hover:bg-stone-800/40 transition-colors">
                 <td className="px-5 py-3.5">
                   <div className="flex items-center gap-3">
                     {cat.imageUrl ? (
-                      <img src={cat.imageUrl} alt="" className="w-9 h-9 rounded-lg object-cover bg-slate-100 flex-shrink-0" />
+                      <img src={cat.imageUrl} alt="" className="w-9 h-9 rounded-lg object-cover bg-stone-100 flex-shrink-0" />
                     ) : (
-                      <div className="w-9 h-9 rounded-lg bg-slate-100 dark:bg-slate-700 flex items-center justify-center flex-shrink-0">
-                        <Tag className="w-4 h-4 text-slate-400" />
+                      <div className="w-9 h-9 rounded-lg bg-stone-100 dark:bg-stone-700 flex items-center justify-center flex-shrink-0">
+                        <Tag className="w-4 h-4 text-stone-400" />
                       </div>
                     )}
-                    <span className="font-semibold text-slate-800 dark:text-slate-100 text-sm">{cat.name}</span>
+                    <span className="font-semibold text-stone-800 dark:text-stone-100 text-sm">{cat.name}</span>
                   </div>
                 </td>
                 <td className="px-5 py-3.5 hidden sm:table-cell">
-                  <code className="text-xs bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 px-2 py-1 rounded">{cat.slug}</code>
+                  <code className="text-xs bg-stone-100 dark:bg-stone-800 text-stone-500 dark:text-stone-400 px-2 py-1 rounded">{cat.slug}</code>
                 </td>
                 <td className="px-5 py-3.5">
-                  <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold ${
+                  <span className={`inline-flex items-center px-2.5 py-1 rounded-sm text-xs font-semibold ${
                     cat.isActive ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400' : 'bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400'
                   }`}>
                     {cat.isActive ? '● Active' : '○ Inactive'}
@@ -126,14 +126,14 @@ const ManageCategories = () => {
                 </td>
                 <td className="px-5 py-3.5 text-right">
                   <button onClick={() => openEdit(cat)}
-                    className="p-2 text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 rounded-lg transition-all">
+                    className="p-2 text-stone-400 hover:text-orange-600 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-900/20 rounded-lg transition-all">
                     <Edit2 className="w-4 h-4" />
                   </button>
                 </td>
               </tr>
             ))}
             {categories.length === 0 && (
-              <tr><td colSpan="4" className="px-5 py-12 text-center text-slate-400 dark:text-slate-500 text-sm">No categories yet. Add one!</td></tr>
+              <tr><td colSpan="4" className="px-5 py-12 text-center text-stone-400 dark:text-stone-500 text-sm">No categories yet. Add one!</td></tr>
             )}
           </tbody>
         </table>
@@ -142,11 +142,11 @@ const ManageCategories = () => {
       {/* ── MODAL ──────────────────────────────────────────────────────── */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-900 rounded-2xl w-full max-w-md shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden">
+          <div className="bg-white dark:bg-stone-900 rounded-none border border-stone-200 dark:border-stone-800 w-full max-w-md shadow-2xl border border-stone-200 dark:border-stone-700 overflow-hidden">
             {/* Modal header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800">
-              <h2 className="text-base font-bold text-slate-800 dark:text-slate-100">{editId ? 'Edit' : 'Add'} Category</h2>
-              <button onClick={() => setIsModalOpen(false)} className="w-7 h-7 flex items-center justify-center rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-stone-100 dark:border-stone-800">
+              <h2 className="text-base font-bold text-stone-800 dark:text-stone-100">{editId ? 'Edit' : 'Add'} Category</h2>
+              <button onClick={() => setIsModalOpen(false)} className="w-7 h-7 flex items-center justify-center rounded-lg text-stone-400 hover:text-stone-600 dark:hover:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all">
                 <X className="w-4 h-4" />
               </button>
             </div>
@@ -154,51 +154,51 @@ const ManageCategories = () => {
             {/* Modal body */}
             <form onSubmit={handleSubmit} className="p-6 space-y-4">
               {error && (
-                <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 text-sm px-4 py-3 rounded-xl">
+                <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 text-sm px-4 py-3 rounded-sm">
                   {error}
                 </div>
               )}
 
               {/* Name */}
               <div>
-                <label className="block text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider mb-1.5">Name *</label>
+                <label className="block text-xs font-bold text-stone-600 dark:text-stone-300 uppercase tracking-wider mb-1.5">Name *</label>
                 <input type="text" value={formData.name} onChange={(e) => handleNameChange(e.target.value)} required
                   placeholder="e.g. Burgers"
-                  className="w-full px-3 py-2.5 text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all" />
+                  className="w-full px-3 py-2.5 text-sm rounded-sm border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 text-stone-800 dark:text-stone-100 placeholder-stone-400 focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 transition-all" />
               </div>
 
               {/* Slug */}
               <div>
-                <label className="block text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider mb-1.5">Slug *</label>
+                <label className="block text-xs font-bold text-stone-600 dark:text-stone-300 uppercase tracking-wider mb-1.5">Slug *</label>
                 <input type="text" value={formData.slug} onChange={(e) => set('slug', e.target.value)} required
                   placeholder="auto-generated"
-                  className="w-full px-3 py-2.5 text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all font-mono" />
+                  className="w-full px-3 py-2.5 text-sm rounded-sm border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 text-stone-800 dark:text-stone-100 placeholder-stone-400 focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 transition-all font-mono" />
               </div>
 
               {/* Image Upload */}
               <div>
-                <label className="block text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider mb-1.5">Image</label>
+                <label className="block text-xs font-bold text-stone-600 dark:text-stone-300 uppercase tracking-wider mb-1.5">Image</label>
                 <ImageUpload value={formData.imageUrl} onChange={(url) => set('imageUrl', url)} />
               </div>
 
               {/* Sort + Active row */}
               <div className="flex gap-4 items-end">
                 <div className="flex-1">
-                  <label className="block text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider mb-1.5">Sort Order</label>
+                  <label className="block text-xs font-bold text-stone-600 dark:text-stone-300 uppercase tracking-wider mb-1.5">Sort Order</label>
                   <input type="number" value={formData.sortOrder} onChange={(e) => set('sortOrder', Number(e.target.value))}
-                    className="w-full px-3 py-2.5 text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-indigo-500 transition-all" />
+                    className="w-full px-3 py-2.5 text-sm rounded-sm border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 text-stone-800 dark:text-stone-100 focus:outline-none focus:border-orange-500 transition-all" />
                 </div>
                 <div className="flex items-center gap-2 pb-2.5">
                   <input type="checkbox" id="cat-active" checked={formData.isActive} onChange={(e) => set('isActive', e.target.checked)}
-                    className="w-4 h-4 rounded text-indigo-600 cursor-pointer" />
-                  <label htmlFor="cat-active" className="text-sm font-semibold text-slate-700 dark:text-slate-300 cursor-pointer">Active</label>
+                    className="w-4 h-4 rounded text-orange-600 cursor-pointer" />
+                  <label htmlFor="cat-active" className="text-sm font-semibold text-stone-700 dark:text-stone-300 cursor-pointer">Active</label>
                 </div>
               </div>
 
               {/* Submit */}
               <button type="submit" disabled={saving}
-                className="w-full bg-indigo-600 hover:bg-indigo-500 disabled:opacity-60 text-white font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-2 mt-2">
-                {saving ? <><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Saving…</> : `${editId ? 'Update' : 'Create'} Category`}
+                className="w-full bg-orange-600 hover:bg-orange-500 disabled:opacity-60 text-white font-bold py-3 rounded-sm transition-all flex items-center justify-center gap-2 mt-2">
+                {saving ? <><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-sm animate-spin" /> Saving…</> : `${editId ? 'Update' : 'Create'} Category`}
               </button>
             </form>
           </div>

@@ -8,7 +8,7 @@ const generateToken = (id) => {
   });
 };
 
-const sendTokenResponse = (user, statusCode, res) => {
+const sendTokenResponse = (user, statusCode, req, res) => {
   const token = generateToken(user._id);
 
   const options = {
@@ -20,7 +20,10 @@ const sendTokenResponse = (user, statusCode, res) => {
 
   user.passwordHash = undefined;
 
-  res.status(statusCode).cookie('jwt', token, options).json({
+  const appRole = req.headers['x-app-role'] || 'customer';
+  const cookieName = appRole === 'admin' ? 'jwt_admin' : 'jwt_customer';
+
+  res.status(statusCode).cookie(cookieName, token, options).json({
     success: true,
     data: user
   });
@@ -45,7 +48,7 @@ export const register = async (req, res) => {
       phone
     });
 
-    sendTokenResponse(user, 201, res);
+    sendTokenResponse(user, 201, req, res);
   } catch (error) {
     res.status(500).json({ success: false, message: 'Server error', error: error.message });
   }
@@ -69,14 +72,17 @@ export const login = async (req, res) => {
       return res.status(401).json({ success: false, message: 'Invalid credentials' });
     }
 
-    sendTokenResponse(user, 200, res);
+    sendTokenResponse(user, 200, req, res);
   } catch (error) {
     res.status(500).json({ success: false, message: 'Server error', error: error.message });
   }
 };
 
 export const logout = (req, res) => {
-  res.cookie('jwt', 'none', {
+  const appRole = req.headers['x-app-role'] || 'customer';
+  const cookieName = appRole === 'admin' ? 'jwt_admin' : 'jwt_customer';
+
+  res.cookie(cookieName, 'none', {
     expires: new Date(Date.now() + 10 * 1000),
     httpOnly: true
   });
@@ -90,5 +96,57 @@ export const getMe = async (req, res) => {
     res.status(200).json({ success: true, data: user });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Server error' });
+  }
+};
+
+export const updateProfile = async (req, res) => {
+  try {
+    const { name, email, phone, password, address } = req.body;
+    
+    // Find user
+    const user = await User.findById(req.user.id).select('+passwordHash');
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    // Check if email is being updated and if it's already in use
+    if (email && email !== user.email) {
+      const existingUser = await User.findOne({ email });
+      if (existingUser) {
+        return res.status(409).json({ success: false, message: 'Email already exists' });
+      }
+      user.email = email;
+    }
+
+    if (name) user.name = name;
+    if (phone) user.phone = phone;
+
+    // Update address
+    if (address) {
+      if (user.addresses.length > 0) {
+        user.addresses[0] = { ...user.addresses[0], ...address };
+      } else {
+        user.addresses.push(address);
+      }
+    }
+
+    // Update password if provided
+    if (password) {
+      const salt = await bcrypt.genSalt(10);
+      user.passwordHash = await bcrypt.hash(password, salt);
+    }
+
+    await user.save();
+    
+    // Remove passwordHash from response
+    user.passwordHash = undefined;
+
+    res.status(200).json({
+      success: true,
+      message: 'Profile updated successfully',
+      data: user
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Server error', error: error.message });
   }
 };

@@ -8,6 +8,9 @@ import categoryRoutes from './routes/categoryRoutes.js';
 import menuRoutes from './routes/menuRoutes.js';
 import statsRoutes from './routes/statsRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
+import orderRoutes from './routes/orderRoutes.js';
+import couponRoutes from './routes/couponRoutes.js';
+import messageRoutes from './routes/messageRoutes.js';
 import { fileURLToPath } from 'url';
 import path from 'path';
 
@@ -43,6 +46,9 @@ app.use('/api/v1/categories', categoryRoutes);
 app.use('/api/v1/menu-items', menuRoutes);
 app.use('/api/v1/stats', statsRoutes);
 app.use('/api/v1/upload', uploadRoutes);
+app.use('/api/v1/orders', orderRoutes);
+app.use('/api/v1/coupons', couponRoutes);
+app.use('/api/v1/messages', messageRoutes);
 
 // Serve uploaded images statically
 app.use('/uploads', express.static(path.join(__dirname, '../../uploads')));

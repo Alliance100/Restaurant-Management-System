@@ -100,26 +100,7 @@ const Home = () => {
               </div>
             </motion.div>
 
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1, delay: 0.4, ease: "easeOut" }}
-              className="relative order-1 lg:order-2 max-w-lg mx-auto lg:max-w-none w-full"
-            >
-              <div className="grid grid-cols-2 gap-4">
-                {[
-                  { value: '18+', label: 'Menu Items' },
-                  { value: '6', label: 'Categories' },
-                  { value: '4.9★', label: 'Average Rating' },
-                  { value: '15min', label: 'Avg Prep Time' },
-                ].map((s) => (
-                  <div key={s.label} className="bg-white/5 backdrop-blur-md p-6 border border-white/10 rounded-sm text-center">
-                    <div className="text-2xl sm:text-3xl font-black text-white">{s.value}</div>
-                    <div className="text-xs text-stone-400 font-medium mt-1">{s.label}</div>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
+
           </div>
         </div>
 

@@ -10,7 +10,9 @@ This project provides a seamless experience for both hungry customers browsing t
 
 ### 🎨 Stunning User Interface
 * **Premium Design**: Built with Tailwind CSS v4, featuring glassmorphism, smooth animations, gradient text, and dynamic hover effects.
+* **Cinematic Animations**: Powered by Framer Motion. Smooth page transitions, staggered item reveals, and physics-based micro-interactions.
 * **Full Dark Mode Support**: A seamless Sun/Moon toggle that instantly switches the entire site between light and dark themes.
+* **Smart Navigation**: Custom Scroll-To-Top listener ensures every page starts fresh from the top.
 * **Mobile Responsive**: Carefully crafted layouts for mobile phones, tablets, and large desktop monitors.
 * **Dynamic Titles**: Browser tab shows "TableCraft" on the public site and "TableCraft Admin | [Page]" in the admin panel.
 
@@ -22,7 +24,7 @@ This project provides a seamless experience for both hungry customers browsing t
   * Sort by price (High/Low) or newest items
   * Search for specific dishes by name
 * **Menu Item Details**: A clean split-screen view of any dish showing price, prep time, dietary tags, customizable add-ons, and a working **Add to Cart** button.
-* **Contact Us**: A beautiful contact page with our address (**Gulberg, Lahore**), phone, email, opening hours, stylized map, and a working contact form.
+* **Contact Us**: A beautiful contact page with our address (**Gulberg, Lahore**), phone, email, opening hours, stylized map, and a fully functional contact form that sends messages directly to the Admin Inbox.
 
 ### 🛒 Shopping Cart
 * **Cart Drawer**: A premium slide-out cart panel accessible from any page via the navbar icon.
@@ -78,6 +80,7 @@ Confirmed/Pending → Cancelled ✗  (Admin or customer cancels)
 * **Category Management**: Create, edit, and deactivate menu categories.
 * **Menu Item Management**: Full CRUD for dishes with dietary tags, add-ons, featured flags, and drag-and-drop image uploads.
 * **Coupon Management**: Create, list, and toggle discount codes.
+* **Inbox & Messaging**: View and manage customer inquiries submitted from the Contact page. Features a live unread message counter, "Mark as Read" toggles, and deletion safety prompts.
 
 ---
 
@@ -88,6 +91,7 @@ Confirmed/Pending → Cancelled ✗  (Admin or customer cancels)
 * Tailwind CSS v4
 * React Router DOM v7
 * Redux Toolkit (Auth + Cart state)
+* Framer Motion (Cinematic animations)
 * Lucide React (Icons)
 * Axios (API calls)
 

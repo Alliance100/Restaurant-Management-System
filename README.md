@@ -1,151 +1,128 @@
-# TableCraft - Restaurant Management System 🍽️
+# TableCraft
 
-Welcome to **TableCraft**, a modern, premium, and fully responsive Restaurant Management System built from the ground up!
+Hey there! This is **TableCraft**, a full-stack restaurant management system I put together. 
 
-This project provides a seamless experience for both hungry customers browsing the menu and ordering food, and restaurant staff managing the full operation.
+I built this because I wanted a platform that actually looks good and works well for everyone involved. It handles everything from customers browsing the menu and placing orders, to the restaurant staff managing the kitchen and updating inventory. 
 
----
-
-## ✨ Features Built So Far
-
-### 🎨 Stunning User Interface
-* **Premium Design**: Built with Tailwind CSS v4, featuring glassmorphism, smooth animations, gradient text, and dynamic hover effects.
-* **Cinematic Animations**: Powered by Framer Motion. Smooth page transitions, staggered item reveals, and physics-based micro-interactions.
-* **Full Dark Mode Support**: A seamless Sun/Moon toggle that instantly switches the entire site between light and dark themes.
-* **Smart Navigation**: Custom Scroll-To-Top listener ensures every page starts fresh from the top.
-* **Mobile Responsive**: Carefully crafted layouts for mobile phones, tablets, and large desktop monitors.
-* **Dynamic Titles**: Browser tab shows "TableCraft" on the public site and "TableCraft Admin | [Page]" in the admin panel.
-
-### 👥 Customer Experience (Public Pages)
-* **Home Page**: A beautiful landing page with a hero section, animated statistics, "Why Choose Us" features, and chef's featured picks.
-* **Menu Page**: A robust menu browser with:
-  * Filter by category (e.g., Burgers, Pizza, Drinks)
-  * Filter by dietary preferences (Vegetarian, Vegan, Gluten-Free)
-  * Sort by price (High/Low) or newest items
-  * Search for specific dishes by name
-* **Menu Item Details**: A clean split-screen view of any dish showing price, prep time, dietary tags, customizable add-ons, and a working **Add to Cart** button.
-* **Contact Us**: A beautiful contact page with our address (**Gulberg, Lahore**), phone, email, opening hours, stylized map, and a fully functional contact form that sends messages directly to the Admin Inbox.
-
-### 🛒 Shopping Cart
-* **Cart Drawer**: A premium slide-out cart panel accessible from any page via the navbar icon.
-* **Live Cart Badge**: Item count shown on the cart icon in real time.
-* **Full Cart CRUD**: Add items (with add-ons), update quantity, remove items, or clear the entire cart.
-* **Persistent Cart**: Cart is saved to `localStorage` — survives page refreshes.
-
-### 📋 Ordering System (Cash on Delivery)
-* **Checkout Page**: Full form with delivery address, special instructions, coupon code validation, and a live order summary.
-* **Coupon Codes**: Admin can create discount codes (percentage or fixed amount) with optional min-order limits, usage limits, and expiry dates.
-* **Order Placement**: Orders saved to the database with a unique order number (e.g. `TC-20260811-0001`).
-* **Session Persistence**: Logging in once keeps you logged in across page refreshes.
-
-### 📦 Order Tracking (Customer)
-* **My Orders Page**: Lists all past and active orders separated by status.
-* **Live Status Updates**: Auto-polls every 15 seconds while an order is active.
-* **Progress Tracker**: Animated progress bar through the order lifecycle.
-* **Order Timeline**: Full history of every status change with timestamps and notes.
-* **Cancel Order**: Customers can cancel their own orders while they are still `pending`.
-
-### 🔄 Order Lifecycle Flow
-```
-Pending (waiting for approval)
-  ↓ Admin approves
-Confirmed
-  ↓ Kitchen starts
-Preparing
-  ↓ Rider picks up
-Out for Delivery
-  ↓ Customer receives
-Delivered ✅
-
-OR
-Pending → Rejected ✗  (Admin rejects)
-Confirmed/Pending → Cancelled ✗  (Admin or customer cancels)
-```
-
-### 🔒 Security & Authentication
-* **Secure Login & Registration**: Custom authentication with JSON Web Tokens (JWT).
-* **HTTP-Only Cookies**: Tokens stored in HTTP-Only cookies (XSS protection).
-* **Role-Based Access**: Differentiates between `customer` and `admin` users.
-* **Session Persistence**: App restores login state on page reload via `/auth/me`.
-
-### 👨‍🍳 Admin Portal
-* **Admin Dashboard**: Real-time stats — total orders, pending orders, today's orders & revenue, total customers, menu items, and featured count.
-* **Manage Orders**: Full order management table with:
-  * Status tabs (All, Pending, Confirmed, Preparing, etc.)
-  * Search by order number, customer name or email
-  * One-click status transitions with optional admin notes
-  * Confirmation modal before each status change
-  * Auto-refresh every 20 seconds
-  * Expandable order detail view with address, items, and full timeline
-* **Category Management**: Create, edit, and deactivate menu categories.
-* **Menu Item Management**: Full CRUD for dishes with dietary tags, add-ons, featured flags, and drag-and-drop image uploads.
-* **Coupon Management**: Create, list, and toggle discount codes.
-* **Inbox & Messaging**: View and manage customer inquiries submitted from the Contact page. Features a live unread message counter, "Mark as Read" toggles, and deletion safety prompts.
+The project is split into three main parts: the customer-facing website, a secure admin dashboard, and a Node.js backend tying it all together.
 
 ---
 
-## 🛠️ Tech Stack
+## What it can do
 
-**Frontend (Client)**
-* React 19 + Vite
-* Tailwind CSS v4
-* React Router DOM v7
-* Redux Toolkit (Auth + Cart state)
-* Framer Motion (Cinematic animations)
-* Lucide React (Icons)
-* Axios (API calls)
+### For the Customers
+* **Browsing the Menu**: Customers can filter dishes by category, sort by price, and check for things like vegan or gluten-free options.
+* **Ordering Food**: Every dish has a detailed page where people can add custom extras. There's a slide-out cart that remembers what you added, and it even clears itself out after 15 minutes of inactivity so the database doesn't get clogged with abandoned orders.
+* **Payments**: I wired up Stripe so customers can pay securely with their credit cards. If they prefer paying in person, there's a standard Cash on Delivery option too.
+* **Order Tracking**: Once an order is placed, the status page automatically updates in real-time. You don't even have to refresh the page to see when your food is out for delivery.
+* **Dark Mode**: Because everyone loves dark mode. There's a simple toggle that switches the entire theme instantly.
 
-**Backend (Server)**
-* Node.js + Express v5
-* MongoDB + Mongoose
-* JSON Web Tokens (JWT) + Cookie Parser
-* Multer (Image uploads)
-* bcrypt (Password hashing)
+### For the Restaurant Staff (Admin Portal)
+* **Dashboard**: Gives a quick bird's-eye view of how the business is doing today—total revenue, active orders, and customer count.
+* **Managing Orders**: Admins have a dedicated table to see incoming orders. With one click, they can move an order from "Pending" to "Preparing" to "Out for Delivery".
+* **Inventory Control**: You can easily add new dishes or tweak existing ones. Image uploads are handled via drag-and-drop and get sent straight to Cloudinary.
+* **Customer Messages**: Any messages sent from the public Contact page show up here in a clean inbox format.
 
 ---
 
-## 🚀 How to Run Locally
+## What I used to build it
 
-### 1. Database Setup
-You will need a MongoDB connection string. You can use MongoDB Atlas (cloud) or a local MongoDB instance.
+**Frontend (Both Client & Admin Apps)**
+* React 19 and Vite
+* Tailwind CSS v4 for all the styling
+* React Router v7 for navigation
+* Redux Toolkit to manage things like the shopping cart and user sessions
+* Framer Motion for some smooth page transitions and micro-animations
+* Stripe Elements for the checkout flow
 
-### 2. Environment Variables
-Create a `.env` file in the `server` folder:
+**Backend (The API)**
+* Node.js and Express v5
+* MongoDB (Atlas) and Mongoose
+* JSON Web Tokens (JWT) stored in HTTP-only cookies for secure logins
+* Cloudinary for hosting user-uploaded images
+* Stripe's Node SDK
+
+---
+
+## Want to run it yourself?
+
+If you want to spin this up on your local machine, here is exactly how to do it.
+
+### 1. External stuff you'll need
+You can't really run the app without these three things:
+- A MongoDB database URL (MongoDB Atlas is free and easy).
+- A Cloudinary account (also free) so image uploads actually work.
+- A Stripe account to get your test API keys.
+
+### 2. Set up your environment variables
+You'll need to create three `.env` files in different folders.
+
+**In the `server` folder (`server/.env`):**
 ```env
-PORT=5000
-MONGODB_URI=your_mongodb_connection_string_here
-JWT_ACCESS_SECRET=your_super_secret_key_here
 NODE_ENV=development
+PORT=5000
+MONGODB_URI=your_mongodb_connection_string
+JWT_ACCESS_SECRET=make_up_a_random_secret_string
+JWT_REFRESH_SECRET=make_up_another_random_string
 CLIENT_ORIGIN=http://localhost:5173
+ADMIN_ORIGIN=http://localhost:5174
+CLOUDINARY_URL=your_cloudinary_url_here
+STRIPE_SECRET_KEY=sk_test_your_stripe_secret
+STRIPE_WEBHOOK_SECRET=whsec_your_stripe_webhook_secret
 ```
 
-### 3. Start the Backend
+**In the `client` folder (`client/.env`):**
+```env
+VITE_API_BASE_URL=http://localhost:5000/api/v1
+VITE_STRIPE_PUBLISHABLE_KEY=pk_test_your_stripe_key
+```
+
+**In the `admin` folder (`admin/.env`):**
+```env
+VITE_API_BASE_URL=http://localhost:5000/api/v1
+```
+
+### 3. Boot it up
+
+You'll need three separate terminal windows to run all the pieces at the same time.
+
+**Terminal 1 (Backend):**
 ```bash
 cd server
 npm install
 npm run dev
 ```
 
-### 4. Start the Frontend
+**Terminal 2 (Customer Site):**
 ```bash
 cd client
 npm install
 npm run dev
 ```
 
-The app runs at `http://localhost:5173`.
+**Terminal 3 (Admin Dashboard):**
+```bash
+cd admin
+npm install
+npm run dev
+```
 
-### 5. Create an Admin Account
-Run the seed script to create a default admin user:
+### 4. Create your first admin account
+To actually log into the admin dashboard, you'll need an account. I wrote a quick seed script that creates a default one for you. Just open a new terminal and run:
 ```bash
 cd server
 npm run seed
 ```
-Default admin: `admin@tablecraft.com` / `admin123`
+You can now log into the admin portal using `admin@tablecraft.com` and the password `admin123`.
 
 ---
 
-## 📍 Restaurant Info
-**TableCraft Restaurant**
-Main Gulberg, Lahore, Punjab, Pakistan
-📞 +92 300 1234567  |  ✉️ hello@tablecraft.pk
+## Deploying to Vercel
+
+If you want to put this on the internet, Vercel is the easiest way.
+1. Push your code to GitHub.
+2. Go to Vercel and import the `server` folder as one project, the `client` folder as a second project, and the `admin` folder as a third project.
+3. Paste in all the environment variables from step 2 into their respective Vercel project settings.
+4. Hit deploy! 
+
+*Quick note: I already configured the backend to allow cross-domain cookies, so logins will work perfectly across different Vercel URLs out of the box.*

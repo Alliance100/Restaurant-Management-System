@@ -14,8 +14,8 @@ const sendTokenResponse = (user, statusCode, req, res) => {
   const options = {
     expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict'
+    secure: true, // MUST be true for SameSite='none'
+    sameSite: 'none' // MUST be 'none' for cross-domain cookies (Vercel)
   };
 
   user.passwordHash = undefined;
@@ -84,7 +84,9 @@ export const logout = (req, res) => {
 
   res.cookie(cookieName, 'none', {
     expires: new Date(Date.now() + 10 * 1000),
-    httpOnly: true
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none'
   });
 
   res.status(200).json({ success: true, message: 'Logged out successfully' });

@@ -156,3 +156,8 @@ a, button {
 .btn-glow:hover {
   box-shadow: 0 8px 24px rgba(234, 88, 12, 0.4);
 }
+
+/* Force hide Vercel Toolbar */
+vercel-live-feedback {
+  display: none !important;
+}

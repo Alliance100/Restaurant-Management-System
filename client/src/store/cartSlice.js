@@ -3,7 +3,15 @@ import { createSlice } from '@reduxjs/toolkit';
 const loadCart = () => {
   try {
     const saved = localStorage.getItem('tablecraft_cart');
-    return saved ? JSON.parse(saved) : { items: [] };
+    if (!saved) return { items: [] };
+    
+    const parsed = JSON.parse(saved);
+    // Clear cart if 15 minutes have passed since last update
+    if (parsed.updatedAt && Date.now() - parsed.updatedAt > 15 * 60 * 1000) {
+      localStorage.removeItem('tablecraft_cart');
+      return { items: [] };
+    }
+    return parsed;
   } catch {
     return { items: [] };
   }
@@ -11,7 +19,8 @@ const loadCart = () => {
 
 const saveCart = (state) => {
   try {
-    localStorage.setItem('tablecraft_cart', JSON.stringify({ items: state.items }));
+    const data = { items: state.items, updatedAt: Date.now() };
+    localStorage.setItem('tablecraft_cart', JSON.stringify(data));
   } catch (_) { }
 };
 

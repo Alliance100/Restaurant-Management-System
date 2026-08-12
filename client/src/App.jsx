@@ -34,6 +34,23 @@ const App = () => {
       }
     };
     restoreSession();
+
+    // Check cart expiration every minute
+    const cartCheckInterval = setInterval(() => {
+      try {
+        const saved = localStorage.getItem('tablecraft_cart');
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (parsed.updatedAt && Date.now() - parsed.updatedAt > 15 * 60 * 1000) {
+            import('./store/cartSlice').then(({ clearCart }) => {
+              dispatch(clearCart());
+            });
+          }
+        }
+      } catch (_) {}
+    }, 60 * 1000);
+
+    return () => clearInterval(cartCheckInterval);
   }, [dispatch]);
 
   const location = useLocation();

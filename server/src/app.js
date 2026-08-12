@@ -23,7 +23,7 @@ const app = express();
 // Accept any localhost port (e.g. 5173, 5174, 3000) so Vite port changes don't break CORS
 const allowedOrigins = [
   process.env.CLIENT_ORIGIN || 'http://localhost:5173',
-  'http://localhost:5174',
+  process.env.ADMIN_ORIGIN || 'http://localhost:5174',
   'http://localhost:3000',
 ];
 
@@ -33,6 +33,10 @@ app.use(cors({
     if (!origin) return callback(null, true);
     // Allow any localhost regardless of port during development
     if (/^http:\/\/localhost:\d+$/.test(origin) || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    // Allow any Vercel deployment domain
+    if (origin.endsWith('.vercel.app')) {
       return callback(null, true);
     }
     callback(new Error(`CORS: Origin '${origin}' not allowed`));

@@ -52,14 +52,16 @@ const orderSchema = new mongoose.Schema({
 
   paymentMethod: {
     type: String,
-    enum: ['cash_on_delivery'],
+    enum: ['cash_on_delivery', 'stripe'],
     default: 'cash_on_delivery',
   },
   paymentStatus: {
     type: String,
-    enum: ['pending', 'paid'],
-    default: 'pending',
+    enum: ['unpaid', 'pending', 'paid', 'failed', 'refunded'],
+    default: 'unpaid',
   },
+  paymentIntentId: { type: String },
+  fulfillmentType: { type: String, enum: ['delivery', 'pickup'], default: 'delivery' },
 
   status: {
     type: String,

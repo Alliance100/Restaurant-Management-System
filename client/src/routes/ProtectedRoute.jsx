@@ -20,8 +20,7 @@ const ProtectedRoute = ({ allowedRoles = [] }) => {
   const requiresAdmin = allowedRoles.includes('admin');
 
   if (!isAuthenticated || !user) {
-
-    return <Navigate to={requiresAdmin ? '/admin/login' : '/login'} replace state={{ from: location }} />;
+    return <Navigate to="/login" replace state={{ from: location }} />;
   }
 
   if (allowedRoles.length > 0 && !allowedRoles.includes(user.role)) {

@@ -1,21 +1,14 @@
 import multer from 'multer';
+import { v2 as cloudinary } from 'cloudinary';
+import streamifier from 'streamifier';
 import path from 'path';
-import { fileURLToPath } from 'url';
-import fs from 'fs';
+import 'dotenv/config';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const uploadsDir = path.join(__dirname, '../../uploads');
+// Configure Cloudinary using the environment variable (CLOUDINARY_URL)
+cloudinary.config();
 
-// Ensure uploads directory exists
-if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
-
-const storage = multer.diskStorage({
-  destination: (_req, _file, cb) => cb(null, uploadsDir),
-  filename: (_req, file, cb) => {
-    const uniqueName = `${Date.now()}-${Math.round(Math.random() * 1e5)}${path.extname(file.originalname)}`;
-    cb(null, uniqueName);
-  },
-});
+// Use memory storage since Vercel filesystem is read-only
+const storage = multer.memoryStorage();
 
 const fileFilter = (_req, file, cb) => {
   const allowed = /jpeg|jpg|png|webp|gif|avif/;
@@ -31,11 +24,28 @@ const upload = multer({ storage, fileFilter, limits: { fileSize: 5 * 1024 * 1024
 // POST /api/v1/upload
 export const uploadImage = [
   upload.single('image'),
-  (req, res) => {
+  async (req, res) => {
     if (!req.file) {
       return res.status(400).json({ success: false, message: 'No file uploaded' });
     }
-    const imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
-    res.json({ success: true, data: { imageUrl, filename: req.file.filename } });
+
+    try {
+      // Upload stream to Cloudinary
+      const uploadStream = cloudinary.uploader.upload_stream(
+        { folder: 'tablecraft_uploads' },
+        (error, result) => {
+          if (error) {
+            console.error('Cloudinary upload error:', error);
+            return res.status(500).json({ success: false, message: 'Cloudinary upload failed' });
+          }
+          res.json({ success: true, data: { imageUrl: result.secure_url, filename: result.public_id } });
+        }
+      );
+
+      streamifier.createReadStream(req.file.buffer).pipe(uploadStream);
+    } catch (error) {
+      console.error('Upload handler error:', error);
+      res.status(500).json({ success: false, message: error.message });
+    }
   },
 ];

@@ -90,6 +90,9 @@ export const placeOrder = async (req, res) => {
 
     const total = subtotal + deliveryFee - discountAmount;
 
+    const method = (req.body.paymentMethod === 'stripe') ? 'stripe' : 'cash_on_delivery';
+    const paymentStatus = method === 'stripe' ? 'pending' : 'unpaid';
+
     const order = await Order.create({
       user: req.user._id,
       customerName: req.user.name,
@@ -102,7 +105,8 @@ export const placeOrder = async (req, res) => {
       total,
       coupon: appliedCoupon,
       deliveryAddress,
-      paymentMethod: 'cash_on_delivery',
+      paymentMethod: method,
+      paymentStatus: paymentStatus,
       notes,
     });
 
@@ -212,8 +216,8 @@ export const updateOrderStatus = async (req, res) => {
     order.status = status;
     order.statusHistory.push({ status, note: note || `Status updated to ${status} by admin` });
 
-    // Mark as paid when delivered (COD)
-    if (status === 'delivered') {
+    // Mark as paid when delivered (COD) and cash received is true
+    if (status === 'delivered' && req.body.cashReceived === true && order.paymentMethod === 'cash_on_delivery') {
       order.paymentStatus = 'paid';
     }
 

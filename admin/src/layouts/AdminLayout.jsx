@@ -22,6 +22,7 @@ const pageTitles = {
   '/admin/menu-items': 'Manage Menu Items',
   '/admin/coupons': 'Manage Coupons',
   '/admin/messages': 'Inbox',
+  '/admin/profile': 'Profile Settings',
 };
 
 const AdminLayout = () => {
@@ -109,15 +110,15 @@ const AdminLayout = () => {
 
       <div className="p-3 border-t border-stone-800 space-y-1.5">
         {user && (
-          <div className="flex items-center gap-3 px-3 py-2.5 rounded-sm bg-stone-800/60">
+          <Link to="/admin/profile" className="flex items-center gap-3 px-3 py-2.5 rounded-sm bg-stone-800/60 hover:bg-stone-800 transition-all group">
             <div className="w-7 h-7 bg-orange-600 rounded-sm flex items-center justify-center flex-shrink-0">
               <span className="text-white font-bold text-xs">{user.name?.charAt(0)}</span>
             </div>
-            <div className="min-w-0">
-              <div className="text-sm font-semibold text-white truncate">{user.name}</div>
+            <div className="min-w-0 flex-1">
+              <div className="text-sm font-semibold text-white truncate group-hover:text-orange-400 transition-colors">{user.name}</div>
               <div className="text-xs text-stone-500 capitalize">{user.role}</div>
             </div>
-          </div>
+          </Link>
         )}
         <button onClick={() => setShowLogoutModal(true)}
           className="w-full flex items-center gap-3 px-3 py-2.5 text-stone-400 hover:text-red-400 hover:bg-red-900/20 rounded-sm text-sm font-semibold transition-all">

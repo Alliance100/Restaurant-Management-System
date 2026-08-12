@@ -8,6 +8,7 @@ import api from './api/axios';
 import PublicLayout from './layouts/PublicLayout';
 import ProtectedRoute from './routes/ProtectedRoute';
 import ScrollToTop from './components/ScrollToTop';
+import { Toaster } from 'react-hot-toast';
 
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -39,6 +40,7 @@ const App = () => {
 
   return (
     <>
+      <Toaster position="top-right" />
       <ScrollToTop />
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>

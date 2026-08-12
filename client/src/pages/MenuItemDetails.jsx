@@ -7,6 +7,7 @@ import { ArrowLeft, Clock, Star, Leaf, ShoppingBag, CheckCircle } from 'lucide-r
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../store/cartSlice';
 import api from '../api/axios';
+import toast from 'react-hot-toast';
 
 const dietaryBadge = {
   vegetarian: { label: 'Vegetarian', cls: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400' },
@@ -59,6 +60,19 @@ const MenuItemDetails = () => {
       quantity,
       selectedAddOns,
     }));
+    
+    toast.success(`${item.name} added to cart!`, {
+      style: {
+        background: '#1c1917', // stone-900
+        color: '#fff',
+        border: '1px solid #ea580c', // orange-600
+      },
+      iconTheme: {
+        primary: '#ea580c',
+        secondary: '#fff',
+      },
+    });
+
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
   };

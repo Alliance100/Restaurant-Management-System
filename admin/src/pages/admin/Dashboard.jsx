@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Users, ShoppingBag, Utensils, Tags, Star, ArrowRight, TrendingUp, Clock, CheckCircle, Package } from 'lucide-react';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import api from '../../api/axios';
 
 const Dashboard = () => {
@@ -10,7 +11,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const res = await api.get('/stats');
+        const res = await api.get(`/stats?t=${new Date().getTime()}`);
         setStats(res.data.data);
       } catch (err) {
         console.error('Failed to load stats', err);
@@ -18,7 +19,10 @@ const Dashboard = () => {
         setLoading(false);
       }
     };
+    
     fetchStats();
+    const interval = setInterval(fetchStats, 5000);
+    return () => clearInterval(interval);
   }, []);
 
   const statCards = stats
@@ -217,30 +221,82 @@ const Dashboard = () => {
 
       <div className="bg-white dark:bg-stone-900 rounded-none border border-stone-200 dark:border-stone-800 p-8 border border-stone-100 dark:border-stone-800 ">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-base font-bold text-stone-800 dark:text-stone-100">Revenue Overview</h3>
-          <span className="text-xs bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 font-bold px-3 py-1 rounded-sm">
-            Today: ${((stats?.todayRevenue || 0) / 100).toFixed(2)}
+          <div>
+            <h3 className="text-base font-bold text-stone-800 dark:text-stone-100">Revenue Overview</h3>
+            <p className="text-xs text-stone-400 mt-0.5">
+              {new Date().toLocaleString('default', { month: 'long', year: 'numeric' })} — day by day
+            </p>
+          </div>
+          <span className="text-sm bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 font-bold px-4 py-1.5 rounded-sm">
+            This Month: ${((stats?.monthRevenue || 0) / 100).toFixed(2)}
           </span>
         </div>
-        <div className="min-h-[200px] flex flex-col items-center justify-center gap-4">
-          <div className="flex items-end gap-3 h-32">
-            {[40, 65, 30, 80, 55, 90, 45].map((h, i) => (
-              <div
-                key={i}
-                className="w-8 rounded-t-lg bg-gradient-to-t from-orange-400 to-orange-200 dark:from-orange-700 dark:to-orange-900"
-                style={{ height: `${h}%` }}
-              />
-            ))}
+
+        {loading ? (
+          <div className="h-[250px] flex items-center justify-center">
+            <div className="skeleton w-full h-full rounded-md opacity-20"></div>
           </div>
-          <div className="text-center">
-            <p className="text-sm font-medium text-stone-500 dark:text-stone-400">
-              Detailed analytics charts coming in future updates.
-            </p>
-            <p className="text-xs text-stone-400 mt-1">
-              Total orders so far: <strong className="text-orange-600 dark:text-orange-400">{stats?.totalOrders ?? 0}</strong>
-            </p>
-          </div>
-        </div>
+        ) : (() => {
+          // Build full month day array (1 to last day of current month), filling zeros for missing days
+          const daysInMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
+          const dailyMap = {};
+          (stats?.dailyRevenue || []).forEach(d => { dailyMap[d.day] = d.total; });
+          const chartData = Array.from({ length: daysInMonth }, (_, i) => ({
+            name: `${i + 1}`,
+            Revenue: (dailyMap[i + 1] || 0) / 100,
+          }));
+
+          return chartData.some(d => d.Revenue > 0) ? (
+            <div className="h-[250px] w-full mt-4">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={chartData} barCategoryGap="30%">
+                  <XAxis
+                    dataKey="name"
+                    axisLine={false}
+                    tickLine={false}
+                    tick={{ fill: '#888', fontSize: 10 }}
+                    dy={8}
+                    interval={1}
+                  />
+                  <YAxis
+                    axisLine={false}
+                    tickLine={false}
+                    tick={{ fill: '#888', fontSize: 11 }}
+                    tickFormatter={(v) => `$${v}`}
+                    width={45}
+                  />
+                  <Tooltip
+                    cursor={{ fill: 'rgba(249,115,22,0.08)' }}
+                    contentStyle={{
+                      backgroundColor: '#1c1917',
+                      border: '1px solid #292524',
+                      borderRadius: '8px',
+                      color: '#fff',
+                      fontSize: '12px',
+                    }}
+                    labelFormatter={(label) => `Day ${label}`}
+                    formatter={(value) => [`$${value.toFixed(2)}`, 'Revenue']}
+                  />
+                  <Bar dataKey="Revenue" fill="#f97316" radius={[3, 3, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          ) : (
+            <div className="min-h-[200px] flex flex-col items-center justify-center gap-3">
+              <div className="w-12 h-12 rounded-full bg-stone-100 dark:bg-stone-800 flex items-center justify-center">
+                <TrendingUp className="w-6 h-6 text-stone-300 dark:text-stone-600" />
+              </div>
+              <div className="text-center">
+                <p className="text-sm font-medium text-stone-500 dark:text-stone-400">
+                  No revenue this month yet.
+                </p>
+                <p className="text-xs text-stone-400 mt-1">
+                  Revenue will appear here once orders are delivered.
+                </p>
+              </div>
+            </div>
+          );
+        })()}
       </div>
     </div>
   );

@@ -11,6 +11,13 @@ export const getStats = async (req, res) => {
     const todayEnd = new Date();
     todayEnd.setHours(23, 59, 59, 999);
 
+    // Date range for "this month"
+    const monthStart = new Date();
+    monthStart.setDate(1);
+    monthStart.setHours(0, 0, 0, 0);
+    const monthEnd = new Date(monthStart.getFullYear(), monthStart.getMonth() + 1, 0);
+    monthEnd.setHours(23, 59, 59, 999);
+
     const [
       totalCategories,
       totalMenuItems,
@@ -20,6 +27,8 @@ export const getStats = async (req, res) => {
       pendingOrders,
       todayOrders,
       todayRevenue,
+      monthRevenue,
+      dailyRevenue,
     ] = await Promise.all([
       Category.countDocuments({ isActive: true }),
       MenuItem.countDocuments({ isAvailable: true }),
@@ -28,6 +37,7 @@ export const getStats = async (req, res) => {
       Order.countDocuments(),
       Order.countDocuments({ status: 'pending' }),
       Order.countDocuments({ createdAt: { $gte: todayStart, $lte: todayEnd } }),
+      // Today's revenue
       Order.aggregate([
         {
           $match: {
@@ -36,6 +46,32 @@ export const getStats = async (req, res) => {
           },
         },
         { $group: { _id: null, total: { $sum: '$total' } } },
+      ]),
+      // This month's total revenue
+      Order.aggregate([
+        {
+          $match: {
+            status: 'delivered',
+            createdAt: { $gte: monthStart, $lte: monthEnd },
+          },
+        },
+        { $group: { _id: null, total: { $sum: '$total' } } },
+      ]),
+      // Day-by-day revenue for the current month
+      Order.aggregate([
+        {
+          $match: {
+            status: 'delivered',
+            createdAt: { $gte: monthStart, $lte: monthEnd },
+          },
+        },
+        {
+          $group: {
+            _id: { day: { $dayOfMonth: '$createdAt' } },
+            total: { $sum: '$total' }
+          }
+        },
+        { $sort: { '_id.day': 1 } }
       ]),
     ]);
 
@@ -49,7 +85,12 @@ export const getStats = async (req, res) => {
         totalOrders,
         pendingOrders,
         todayOrders,
-        todayRevenue: todayRevenue[0]?.total || 0, // in cents
+        todayRevenue: todayRevenue[0]?.total || 0,
+        monthRevenue: monthRevenue[0]?.total || 0,
+        dailyRevenue: dailyRevenue.map(item => ({
+          day: item._id.day,
+          total: item.total,
+        })),
       },
     });
   } catch (error) {

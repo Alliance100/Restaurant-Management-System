@@ -12,7 +12,10 @@ export const getMenuItems = async (req, res) => {
     }
 
     if (search) {
-      query.$text = { $search: search };
+      query.$or = [
+        { name: { $regex: search, $options: 'i' } },
+        { description: { $regex: search, $options: 'i' } }
+      ];
     }
 
     if (category) {

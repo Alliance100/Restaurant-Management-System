@@ -3,30 +3,30 @@ import { RefreshCw, Search, ChevronDown, ChevronUp, Clock, CheckCircle, XCircle,
 import api from '../../api/axios';
 
 const STATUS_CONFIG = {
-  pending:          { label: 'Pending',          color: 'text-amber-700 dark:text-amber-400',   bg: 'bg-amber-50 dark:bg-amber-900/20',   border: 'border-amber-200 dark:border-amber-800',   dot: 'bg-amber-500'  },
-  confirmed:        { label: 'Confirmed',        color: 'text-orange-700 dark:text-orange-400', bg: 'bg-orange-50 dark:bg-orange-900/20', border: 'border-orange-200 dark:border-orange-800', dot: 'bg-orange-500' },
-  preparing:        { label: 'Preparing',        color: 'text-amber-700 dark:text-amber-400', bg: 'bg-amber-50 dark:bg-amber-900/20', border: 'border-amber-200 dark:border-amber-800', dot: 'bg-amber-500' },
-  out_for_delivery: { label: 'Out for Delivery', color: 'text-blue-700 dark:text-blue-400',     bg: 'bg-blue-50 dark:bg-blue-900/20',     border: 'border-blue-200 dark:border-blue-800',     dot: 'bg-blue-500'   },
-  delivered:        { label: 'Delivered',        color: 'text-emerald-700 dark:text-emerald-400', bg: 'bg-emerald-50 dark:bg-emerald-900/20', border: 'border-emerald-200 dark:border-emerald-800', dot: 'bg-emerald-500' },
-  cancelled:        { label: 'Cancelled',        color: 'text-stone-500',                        bg: 'bg-stone-50 dark:bg-stone-800',      border: 'border-stone-200 dark:border-stone-700',   dot: 'bg-stone-400'  },
-  rejected:         { label: 'Rejected',         color: 'text-red-700 dark:text-red-400',        bg: 'bg-red-50 dark:bg-red-900/20',       border: 'border-red-200 dark:border-red-800',       dot: 'bg-red-500'    },
+  pending: { label: 'Pending', color: 'text-amber-700 dark:text-amber-400', bg: 'bg-amber-50 dark:bg-amber-900/20', border: 'border-amber-200 dark:border-amber-800', dot: 'bg-amber-500' },
+  confirmed: { label: 'Confirmed', color: 'text-orange-700 dark:text-orange-400', bg: 'bg-orange-50 dark:bg-orange-900/20', border: 'border-orange-200 dark:border-orange-800', dot: 'bg-orange-500' },
+  preparing: { label: 'Preparing', color: 'text-amber-700 dark:text-amber-400', bg: 'bg-amber-50 dark:bg-amber-900/20', border: 'border-amber-200 dark:border-amber-800', dot: 'bg-amber-500' },
+  out_for_delivery: { label: 'Out for Delivery', color: 'text-blue-700 dark:text-blue-400', bg: 'bg-blue-50 dark:bg-blue-900/20', border: 'border-blue-200 dark:border-blue-800', dot: 'bg-blue-500' },
+  delivered: { label: 'Delivered', color: 'text-emerald-700 dark:text-emerald-400', bg: 'bg-emerald-50 dark:bg-emerald-900/20', border: 'border-emerald-200 dark:border-emerald-800', dot: 'bg-emerald-500' },
+  cancelled: { label: 'Cancelled', color: 'text-stone-500', bg: 'bg-stone-50 dark:bg-stone-800', border: 'border-stone-200 dark:border-stone-700', dot: 'bg-stone-400' },
+  rejected: { label: 'Rejected', color: 'text-red-700 dark:text-red-400', bg: 'bg-red-50 dark:bg-red-900/20', border: 'border-red-200 dark:border-red-800', dot: 'bg-red-500' },
 };
 
 const VALID_NEXT = {
-  pending:          ['confirmed', 'rejected'],
-  confirmed:        ['preparing', 'cancelled'],
-  preparing:        ['out_for_delivery'],
+  pending: ['confirmed', 'rejected'],
+  confirmed: ['preparing', 'cancelled'],
+  preparing: ['out_for_delivery'],
   out_for_delivery: ['delivered'],
   delivered: [], cancelled: [], rejected: [],
 };
 
 const NEXT_LABELS = {
-  confirmed:        { label: '✓ Approve Order',     cls: 'bg-orange-600 hover:bg-orange-500 text-white' },
-  rejected:         { label: '✗ Reject Order',      cls: 'bg-red-600 hover:bg-red-500 text-white' },
-  preparing:        { label: '🍳 Start Preparing',  cls: 'bg-amber-600 hover:bg-amber-500 text-white' },
-  cancelled:        { label: '✗ Cancel',            cls: 'bg-stone-500 hover:bg-stone-400 text-white' },
+  confirmed: { label: '✓ Approve Order', cls: 'bg-orange-600 hover:bg-orange-500 text-white' },
+  rejected: { label: '✗ Reject Order', cls: 'bg-red-600 hover:bg-red-500 text-white' },
+  preparing: { label: '🍳 Start Preparing', cls: 'bg-amber-600 hover:bg-amber-500 text-white' },
+  cancelled: { label: '✗ Cancel', cls: 'bg-stone-500 hover:bg-stone-400 text-white' },
   out_for_delivery: { label: '🛵 Out for Delivery', cls: 'bg-blue-600 hover:bg-blue-500 text-white' },
-  delivered:        { label: '✅ Mark Delivered',   cls: 'bg-emerald-600 hover:bg-emerald-500 text-white' },
+  delivered: { label: '✅ Mark Delivered', cls: 'bg-emerald-600 hover:bg-emerald-500 text-white' },
 };
 
 const StatusBadge = ({ status }) => {
@@ -54,7 +54,7 @@ const OrderRow = ({ order, onStatusChange, updating }) => {
   return (
     <>
       <div className={`bg-white dark:bg-stone-900 rounded-none border border-stone-200 dark:border-stone-800 border  transition-all mb-3 ${STATUS_CONFIG[order.status]?.border || 'border-stone-100 dark:border-stone-800'}`}>
-        
+
         <div className="p-5">
           <div className="flex flex-wrap gap-4 items-start justify-between">
             <div className="flex-1 min-w-0">
@@ -110,7 +110,7 @@ const OrderRow = ({ order, onStatusChange, updating }) => {
 
         {expanded && (
           <div className="border-t border-stone-100 dark:border-stone-800 px-5 py-4 space-y-4">
-            
+
             <div>
               <p className="text-xs font-bold text-stone-400 uppercase tracking-wider mb-2">Items</p>
               <div className="space-y-2">
@@ -264,7 +264,7 @@ const ManageOrders = () => {
 
   return (
     <div className="space-y-6 max-w-5xl">
-      
+
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black text-stone-800 dark:text-stone-100 flex items-center gap-2">
@@ -299,11 +299,10 @@ const ManageOrders = () => {
           <button
             key={tab.value}
             onClick={() => setActiveTab(tab.value)}
-            className={`text-xs font-bold px-3.5 py-1.5 rounded-sm border transition-all ${
-              activeTab === tab.value
+            className={`text-xs font-bold px-3.5 py-1.5 rounded-sm border transition-all ${activeTab === tab.value
                 ? 'bg-orange-600 text-white border-orange-600'
                 : 'border-stone-200 dark:border-stone-700 text-stone-600 dark:text-stone-300 hover:border-orange-300 dark:hover:border-orange-700'
-            }`}
+              }`}
           >
             {tab.label}
           </button>

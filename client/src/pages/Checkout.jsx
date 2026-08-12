@@ -7,6 +7,11 @@ import { useNavigate, Link } from 'react-router-dom';
 import { ShoppingBag, MapPin, Tag, CheckCircle, ArrowLeft, Loader2, Clock, Package, Trash2, Plus, Minus } from 'lucide-react';
 import { selectCartItems, selectCartSubtotal, clearCart, updateQuantity, removeFromCart } from '../store/cartSlice';
 import api from '../api/axios';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+import PaymentForm from '../components/PaymentForm';
+
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 const DELIVERY_FEE = 200; // in cents ($2.00)
 
@@ -32,8 +37,11 @@ const Checkout = () => {
   const [placing, setPlacing] = useState(false);
   const [placedOrder, setPlacedOrder] = useState(null);
   const [error, setError] = useState('');
+  const [paymentMethod, setPaymentMethod] = useState('cash_on_delivery');
+  const [clientSecret, setClientSecret] = useState('');
+  const [stripeOrderId, setStripeOrderId] = useState(null);
 
-  if (items.length === 0 && !placedOrder) {
+  if (items.length === 0 && !placedOrder && !stripeOrderId) {
     return (
     <PageTransition>
     <div className="min-h-screen bg-stone-50 dark:bg-stone-950 flex items-center justify-center px-4">
@@ -134,17 +142,61 @@ const Checkout = () => {
         items: orderItems,
         deliveryAddress: address,
         couponCode: coupon ? couponCode : undefined,
+        paymentMethod: paymentMethod,
         notes,
       });
 
-      dispatch(clearCart());
-      setPlacedOrder(res.data.data);
+      const newOrder = res.data.data;
+
+      if (paymentMethod === 'stripe') {
+        const intentRes = await api.post('/payments/create-intent', { orderId: newOrder._id });
+        setClientSecret(intentRes.data.data.clientSecret);
+        setStripeOrderId(newOrder);
+      } else {
+        dispatch(clearCart());
+        setPlacedOrder(newOrder);
+      }
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to place order. Please try again.');
     } finally {
       setPlacing(false);
     }
   };
+
+  if (clientSecret && stripeOrderId) {
+    const options = {
+      clientSecret,
+      appearance: { theme: 'stripe' },
+    };
+    return (
+      <PageTransition>
+        <div className="min-h-screen bg-stone-50 dark:bg-stone-950 flex items-center justify-center px-4 py-10">
+          <div className="bg-white dark:bg-stone-900 rounded-none border border-stone-200 dark:border-stone-800 p-8 max-w-md w-full">
+            <h2 className="text-2xl font-black text-stone-900 dark:text-stone-100 mb-6 text-center">Complete Payment</h2>
+            <Elements stripe={stripePromise} options={options}>
+              <PaymentForm 
+                order={stripeOrderId} 
+                onPaymentSuccess={(order) => {
+                  setPlacedOrder(order);
+                  setClientSecret('');
+                  setStripeOrderId(null);
+                }} 
+              />
+            </Elements>
+            <button 
+              onClick={() => {
+                setClientSecret('');
+                setStripeOrderId(null);
+              }}
+              className="mt-4 w-full text-sm font-semibold text-stone-500 hover:text-stone-700 dark:hover:text-stone-300"
+            >
+              Cancel Payment
+            </button>
+          </div>
+        </div>
+      </PageTransition>
+    );
+  }
 
   return (
     <PageTransition>
@@ -215,17 +267,31 @@ const Checkout = () => {
                 <h2 className="text-base font-black text-stone-800 dark:text-stone-100 flex items-center gap-2 mb-4">
                   💳 Payment Method
                 </h2>
-                <div className="flex items-center gap-4 px-4 py-3 rounded-sm border-2 border-orange-400 bg-orange-50 dark:bg-orange-900/30">
-                  <div className="w-10 h-10 bg-orange-600 rounded-sm flex items-center justify-center flex-shrink-0">
-                    <span className="text-white text-lg">💵</span>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div 
+                    onClick={() => setPaymentMethod('cash_on_delivery')}
+                    className={`cursor-pointer flex items-center gap-4 px-4 py-3 rounded-sm border-2 transition-all ${paymentMethod === 'cash_on_delivery' ? 'border-orange-400 bg-orange-50 dark:bg-orange-900/30' : 'border-stone-200 dark:border-stone-700 hover:border-orange-200 dark:hover:border-orange-800'}`}
+                  >
+                    <div className={`w-10 h-10 rounded-sm flex items-center justify-center flex-shrink-0 ${paymentMethod === 'cash_on_delivery' ? 'bg-orange-600' : 'bg-stone-200 dark:bg-stone-700'}`}>
+                      <span className="text-white text-lg">💵</span>
+                    </div>
+                    <div>
+                      <div className="text-sm font-bold text-stone-800 dark:text-stone-100">Cash on Delivery</div>
+                      <div className="text-xs text-stone-500 dark:text-stone-400">Pay when it arrives</div>
+                    </div>
                   </div>
-                  <div>
-                    <div className="text-sm font-bold text-stone-800 dark:text-stone-100">Cash on Delivery</div>
-                    <div className="text-xs text-stone-400">Pay with cash when your order arrives</div>
-                  </div>
-                  <div className="ml-auto">
-                    <div className="w-5 h-5 bg-orange-600 rounded-sm flex items-center justify-center">
-                      <CheckCircle className="w-3 h-3 text-white" />
+
+                  <div 
+                    onClick={() => setPaymentMethod('stripe')}
+                    className={`cursor-pointer flex items-center gap-4 px-4 py-3 rounded-sm border-2 transition-all ${paymentMethod === 'stripe' ? 'border-orange-400 bg-orange-50 dark:bg-orange-900/30' : 'border-stone-200 dark:border-stone-700 hover:border-orange-200 dark:hover:border-orange-800'}`}
+                  >
+                    <div className={`w-10 h-10 rounded-sm flex items-center justify-center flex-shrink-0 ${paymentMethod === 'stripe' ? 'bg-orange-600' : 'bg-stone-200 dark:bg-stone-700'}`}>
+                      <span className="text-white text-lg">💳</span>
+                    </div>
+                    <div>
+                      <div className="text-sm font-bold text-stone-800 dark:text-stone-100">Pay Online</div>
+                      <div className="text-xs text-stone-500 dark:text-stone-400">Secure card payment</div>
                     </div>
                   </div>
                 </div>
@@ -374,9 +440,9 @@ const Checkout = () => {
                   className="mt-5 w-full bg-orange-600 hover:bg-orange-500 disabled:opacity-70 text-white font-bold py-3.5 rounded-none border border-stone-200 dark:border-stone-800 transition-all flex items-center justify-center gap-2 shadow-lg shadow-orange-200 dark:shadow-none active:scale-95"
                 >
                   {placing ? (
-                    <><Loader2 className="w-4 h-4 animate-spin" /> Placing Order…</>
+                    <><Loader2 className="w-4 h-4 animate-spin" /> Processing…</>
                   ) : (
-                    <>Place Order · ${(total / 100).toFixed(2)}</>
+                    <>{paymentMethod === 'stripe' ? 'Continue to Payment' : 'Place Order'} · ${(total / 100).toFixed(2)}</>
                   )}
                 </button>
 

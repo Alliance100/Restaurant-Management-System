@@ -15,6 +15,7 @@ import ManageCategories from './pages/admin/ManageCategories';
 import ManageOrders from './pages/admin/ManageOrders';
 import ManageCoupons from './pages/admin/ManageCoupons';
 import ManageMessages from './pages/admin/ManageMessages';
+import Profile from './pages/admin/Profile';
 
 function App() {
   const dispatch = useDispatch();
@@ -55,6 +56,7 @@ function App() {
             <Route path="orders" element={<ManageOrders />} />
             <Route path="coupons" element={<ManageCoupons />} />
             <Route path="messages" element={<ManageMessages />} />
+            <Route path="profile" element={<Profile />} />
           </Route>
         </Route>
         

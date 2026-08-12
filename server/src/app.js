@@ -11,6 +11,8 @@ import uploadRoutes from './routes/uploadRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
 import couponRoutes from './routes/couponRoutes.js';
 import messageRoutes from './routes/messageRoutes.js';
+import paymentRoutes from './routes/paymentRoutes.js';
+import { stripeWebhook } from './controllers/paymentController.js';
 import { fileURLToPath } from 'url';
 import path from 'path';
 
@@ -38,6 +40,13 @@ app.use(cors({
   credentials: true,
 }));
 app.use(morgan('dev'));
+
+// Stripe Webhook needs the raw body
+app.use('/api/v1/payments/stripe/webhook', express.raw({ type: 'application/json' }), (req, res, next) => {
+  req.rawBody = req.body;
+  next();
+}, stripeWebhook);
+
 app.use(express.json());
 app.use(cookieParser());
 
@@ -49,6 +58,7 @@ app.use('/api/v1/upload', uploadRoutes);
 app.use('/api/v1/orders', orderRoutes);
 app.use('/api/v1/coupons', couponRoutes);
 app.use('/api/v1/messages', messageRoutes);
+app.use('/api/v1/payments', paymentRoutes);
 
 // Serve uploaded images statically
 app.use('/uploads', express.static(path.join(__dirname, '../../uploads')));
